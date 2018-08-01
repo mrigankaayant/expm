@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/main/images/favicon.png" />
+		<link href="/webjars/font-awesome/4.6.3/css/font-awesome.css" rel="stylesheet" type="text/css" media="screen"/>
+	</f:facet>
+	<title>EXPM</title>
+	<h:outputStylesheet library="css" name="styles.css" />
+	<style type="text/css">
+	
+	
+.ui-ribbon-bigbutton{
+height: 56px;
+width: 5.4em;
+
+}
+	
+	.ui-growl {
+    position: none;
+    top: 0px;
+    right: 0px;
+    width: 01px;
+
+    }
+
+	
+.ui-ribbon .ui-colorpicker .ui-button {
+	height: 1px;
+}
+
+.ui-icon.ui-ribbonicon-new {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/new.png']}");
+}
+
+.ui-icon.ui-ribbonicon-save {
+	background-image: url("#{resource['demo/images/icon/save.png']}");
+}
+
+.ui-icon.ui-ribbonicon-paste {
+	background-image: url("#{resource['demo/images/icon/paste.png']}");
+}
+
+.ui-icon.ui-ribbonicon-cut {
+	background-image: url("#{resource['demo/images/icon/cut.png']}");
+}
+
+.ui-icon.ui-ribbonicon-print {
+	background-image: url("#{resource['demo/images/icon/print.png']}");
+}
+
+.ui-icon.ui-ribbonicon-zoomin {
+	background-image: url("#{resource['demo/images/icon/zoomin.png']}");
+}
+
+.ui-icon.ui-ribbonicon-zoomout {
+	background-image: url("#{resource['demo/images/icon/zoomout.png']}");
+}
+
+.ui-icon.ui-ribbonicon-advanceSearch {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/search.png']}");
+}
+
+.ui-icon.ui-ribbonicon-profile {
+	margin-left: -14px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/profile.png']}");
+}
+
+.ui-icon.ui-ribbonicon-password {
+	margin-left: -13px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/password.png']}");
+}
+
+.ui-icon.ui-ribbonicon-listCandidate {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image:
+		url("#{resource['demo/images/icon/list-candidate.png']}");
+}
+
+.ui-icon.ui-ribbonicon-details {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/details.png']}");
+}
+
+.ui-icon.ui-ribbonicon-summary {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/summary.png']}");
+}
+
+.ui-icon.ui-ribbonicon-recruiterReport {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image:
+		url("#{resource['demo/images/icon/recruiter-report.png']}");
+}
+
+.ui-icon.ui-ribbonicon-payment {
+	margin-left: -12px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/payment.png']}");
+}
+
+.ui-icon.ui-ribbonicon-customEdit {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/edit.png']}");
+}
+
+.ui-icon.ui-ribbonicon-customSave {
+	margin-left: -10px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/custom-save.png']}");
+}
+
+.ui-icon.ui-ribbonicon-customadd {
+	margin-left: -15px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/add.png']}");
+}
+
+.ui-icon.ui-ribbonicon-customaddbatch {
+	margin-left: -15px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/addbatch.png']}");
+}
+
+.ui-icon.ui-ribbonicon-custombatchlist {
+	margin-left: -15px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/batchlist.png']}");
+}
+
+.ui-icon.ui-ribbonicon-customtrainerlist {
+	margin-left: -15px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/trainerlist.png']}");
+}
+
+.ui-icon.ui-ribbonicon-customtassign {
+	margin-left: -15px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/assign.png']}");
+}
+
+.ui-icon.ui-ribbonicon-enrollment {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image: url("#{resource['demo/images/icon/enrollment.png']}");
+}
+
+.ui-icon.ui-ribbonicon-invoice {
+	margin-left: -10px !important;
+	margin-top: -17px !important;
+	background-image: url("#{resource['demo/images/icon/invoice.png']}");
+}
+
+.ui-icon.ui-ribbonicon-offerletter {
+	margin-left: -10px !important;
+	margin-top: -15px !important;
+	background-image: url("#{resource['demo/images/icon/offerleter.png']}");
+}
+
+.ui-icon.ui-ribbonicon-mockpreparation {
+	margin-left: -10px !important;
+	margin-top: -15px !important;
+	background-image: url("#{resource['demo/images/icon/mock.png']}");
+}
+
+.ui-icon.ui-ribbonicon-documents {
+	margin-left: -12px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/documents.png']}");
+}
+
+.ui-icon.ui-ribbonicon-trainingcomplet {
+	margin-left: -10px !important;
+	margin-top: -15px !important;
+	background-image:
+		url("#{resource['demo/images/icon/trainingcomplet.png']}");
+}
+
+.ui-icon.ui-ribbonicon-datasheet {
+	margin-left: -12px !important;
+	margin-top: -21px !important;
+	background-image: url("#{resource['demo/images/icon/datasheet.png']}");
+}
+
+.ui-icon.ui-ribbonicon-training {
+	margin-left: -14px !important;
+	margin-top: -19px !important;
+	background-image: url("#{resource['demo/images/icon/training.png']}");
+}
+
+.ui-icon.ui-ribbonicon-feedback {
+	margin-left: -12px !important;
+	margin-top: -21px !important;
+	background-image: url("#{resource['demo/images/icon/feedback.png']}");
+}
+
+.ui-icon.ui-ribbonicon-offerletter {
+	margin-left: -12px !important;
+	margin-top: -21px !important;
+	background-image: url("#{resource['demo/images/icon/offerletter.png']}");
+}
+
+.ui-icon.ui-ribbonicon-resume {
+	margin-left: -12px !important;
+	margin-top: -18px !important;
+	background-image: url("#{resource['demo/images/icon/resume.png']}");
+}
+
+.ui-icon.ui-ribbonicon-mock {
+	margin-left: -12px !important;
+	margin-top: -21px !important;
+	background-image: url("#{resource['demo/images/icon/mock.png']}");
+}
+
+.ui-icon.ui-ribbonicon-graduation {
+	margin-left: -12px !important;
+	margin-top: -18px !important;
+	background-image: url("#{resource['demo/images/icon/graduation.png']}");
+}
+
+.ui-icon.ui-ribbonicon-referencecheck {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image: url("#{resource['demo/images/icon/reference.png']}");
+}
+
+.ui-icon.ui-ribbonicon-hotlist {
+	margin-left: -12px !important;
+	margin-top: -18px !important;
+	background-image: url("#{resource['demo/images/icon/hotlist.png']}");
+}
+
+.ui-icon.ui-ribbonicon-paymentdeclaration {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image:
+		url("#{resource['demo/images/icon/paymentdeclaration.png']}");
+}
+
+.ui-icon.ui-ribbonicon-placement {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image: url("#{resource['demo/images/icon/placement.png']}");
+}
+
+.ui-icon.ui-ribbonicon-terminated {
+	margin-left: -12px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/terminate.png']}");
+}
+
+.ui-icon.ui-ribbonicon-email {
+	margin-left: -12px !important;
+	margin-top: -23px !important;
+	background-image: url("#{resource['demo/images/icon/email.png']}");
+}
+
+.ui-icon.ui-ribbonicon-candidateProfile {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image:
+		url("#{resource['demo/images/icon/candidateprofile.png']}");
+}
+
+.ui-icon.ui-ribbonicon-candidateReport {
+	margin-left: -14px !important;
+	margin-top: -19px !important;
+	background-image:
+		url("#{resource['demo/images/icon/candidatereport.png']}");
+}
+
+.ui-icon.ui-ribbonicon-logout {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image: url("#{resource['demo/images/icon/logout.png']}");
+}
+
+.ui-icon.ui-ribbonicon-remove {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image: url("#{resource['demo/images/icon/remove.png']}");
+}
+
+.ui-icon.ui-ribbonicon-transfer {
+	margin-left: -12px !important;
+	margin-top: -19px !important;
+	background-image: url("#{resource['demo/images/icon/transfer.png']}");
+}
+
+.ui-icon.ui-ribbonicon-detailsAccount {
+	margin-left: -12px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/detailsAccount.png']}");
+}
+
+.ui-icon.ui-ribbonicon-freepool {
+	margin-left: -13px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/free_pool.png']}");
+}
+
+.ui-icon.ui-ribbonicon-check {
+	margin-left: -13px !important;
+	margin-top: -20px !important;
+	background-image: url("#{resource['demo/images/icon/check.png']}");
+}
+
+
+</style>
+
+</h:head>
+<body>
+	<div>
+		<div class="ui-ribbon">
+			<ui:insert name="header">
+				<h:form>
+					<p:tabMenu activeIndex="#{param.i}" style="border:none;">
+
+						<p:menuitem value="Account" outcome="/account/account.xhtml"
+							disabled="#{!loginBean.hasRole('ACCOUNT')}">
+							<f:param name="i" value="0" />
+						</p:menuitem>
+
+						<p:menuitem activeIndex="#{param.i}" value="Admin" outcome="/admin/admin.xhtml"
+							disabled="#{!loginBean.hasRole('ADMIN')}">
+							<f:param name="i" value="1" />
+						</p:menuitem>
+
+					</p:tabMenu>
+				</h:form>
+			</ui:insert>
+			<ui:insert name="submenu">Put default submenu here, if any.</ui:insert>
+		</div>
+
+		<div style="margin-top: 116px;">
+			<p:messages globalOnly="true" showDetail="true" showSummary="true" autoUpdate="true" closable="true"></p:messages>
+			<ui:insert name="content">Put default content here, if any.</ui:insert>
+		</div>
+	</div>
+	<div>
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false"
+			showHeader="false">
+			<p:graphicImage name="/assets/icon/Loading_throbber.png" />
+		</p:dialog>
+	</div>
+</body>
+</html>

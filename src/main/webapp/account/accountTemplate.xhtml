@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui"
+	template="/templates/common.xhtml">
+	
+	<ui:define name="submenu">
+		
+			<div class="ui-ribbon-groups ui-helper-clearfix">
+			<h:form>
+			
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						
+						<td>
+							<p:commandButton value="List" style="color:teal !important" icon="fa fa-align-left fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.accountList()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Account</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						<td>
+							<p:commandButton value="New" style="color:teal !important" icon="fa fa-bank fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.internalBankForm()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+						<td>
+							<p:commandButton value="List" style="color:teal !important" icon="fa fa-align-left fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.internalBankList()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Bank</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						<td>
+							<p:commandButton value="New" style="color:teal !important" icon="fa fa-credit-card fa-3x"  styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.cardForm()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						<td>
+							<p:commandButton value="List" style="color:teal !important" icon="fa fa-align-left fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.cardList()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Card</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						<td>
+							<p:commandButton value="New" style="color:teal !important" icon="fa fa-rupee fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.cashBookForm()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+						<td>
+							<p:commandButton value="List" style="color:teal !important" icon="fa fa-align-left fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.cashBookList()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Cash</td>
+						</tr>
+					</tfoot>
+				</table>	
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						<td>
+							<p:commandButton value="New" style="color:teal !important" icon="fa fa-list-alt fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.chequeForm()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+						<td>
+							<p:commandButton value="List" style="color:teal !important" icon="fa fa-align-left fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.chequeList()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Cheque</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						<td>
+							<p:commandButton value="New" style="color:teal !important" icon="fa fa-vine fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.vendorForm()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+						<td>
+							<p:commandButton value="List" style="color:teal !important" icon="fa fa-align-left fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.vendorList()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Vender</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						<td>
+							<p:commandButton value="New" style="color:teal !important" icon="fa fa-money fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.expenseForm()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+						<td>
+							<p:commandButton value="List" style="color:teal !important" icon="fa fa-align-left fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.expenseList()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Expense</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+						<td>
+							<p:commandButton value="Details" style="color:teal !important" icon="fa fa-bar-chart fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.reportForm()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+						<td>
+							<p:commandButton value="Cash" style="color:teal !important" icon="fa fa-area-chart fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.expenseReport()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+						<td>
+							<p:commandButton value="Expense" style="color:teal !important" icon="fa fa-bar-chart fa-3x" styleClass="ui-ribbon-bigbutton"
+								action="#{accountBean.expenseDetailsReport()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+						
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="2" class="ui-ribbon-group-label">Report</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				<table class="ui-ribbon-group-content ui-ribbon-group ui-widget">
+					<tr>
+					    <td>
+							<p:commandButton value="Logout" style="color:teal !important" icon="fa fa-power-off fa-3x" styleClass="ui-ribbon-bigbutton" id="logout-button"
+								action="#{loginBean.logout()}" onclick="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+						</td>
+					</tr>
+					<tfoot>
+						<tr>
+							<td colspan="7" class="ui-ribbon-group-label">Logout</td>
+						</tr>
+					</tfoot>
+				</table>
+				
+				</h:form>
+				
+			</div>
+			
+	</ui:define>
+	
+</ui:composition>

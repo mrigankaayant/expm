@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+
+		<p:panelGrid style="width:40%;margin-left:29%;margin-top:10%;">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="6">Create Bank</p:column>
+				</p:row>
+			</f:facet>
+
+		</p:panelGrid>
+		<br></br>
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bank-name" value="Bank Name:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="bank-name"
+						value="#{accountBean.bankInternal.bankName}" required="true"
+						requiredMessage="Enter Bank Name" placeholder="Bank Name" />
+						<p:message for="bank-name" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="account-no" value="Account No:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="account-no"
+						value="#{accountBean.bankInternal.accountNo}" required="true"
+						requiredMessage="Enter Account No" placeholder="Account No" />
+						<p:message for="account-no" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<f:facet name="footer">
+				<p:row>
+					<p:column colspan="6" class="right-align">
+						<p:commandButton value="Save" onclick="PF('statusDialog').show()"
+							oncomplete="PF('statusDialog').hide()" disabled="#{accountBean.bankInternal.id != null}"
+							actionListener="#{accountBean.saveInternalBank()}" update=":mainBody" />
+					</p:column>
+				</p:row>
+			</f:facet>
+		</p:panelGrid>
+
+	</h:form>
+</ui:composition>

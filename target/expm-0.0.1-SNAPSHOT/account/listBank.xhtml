@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form>
+	
+		<p:panel style="margin-top:1%">
+		
+			<f:facet name="header">Bank List</f:facet>
+			
+			<p:dataTable var="bank" value="#{accountBean.banks}" paginator="true" rows="20"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				sortBy="#{bank.bankId}" rowKey="#{bank.bankId}" sortOrder="descending" selectionMode="single" selection="#{accountBean.selectedBank}" 
+				rowsPerPageTemplate="20,25,50,100" id="bank-table" widgetVar="bankTable">
+				
+				<f:facet name="header">Banks</f:facet>
+				
+				<p:ajax event="rowDblselect" listener="#{accountBean.onRowSelectInBankList}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+
+				<p:column headerText="Id" sortBy="#{bank.bankId}" filterBy="#{bank.bankId}" style="text-align:center">
+					<h:outputText value="#{bank.bankId}" />
+				</p:column>
+				
+				<p:column headerText="Bank Name" sortBy="#{bank.bankName}" filterBy="#{bank.bankName}"
+					style="text-align:center">
+					<h:outputText value="#{bank.bankName}" />
+				</p:column>
+
+				<p:column headerText="Bank Account No" sortBy="#{bank.bankAccountNo}" filterBy="#{bank.bankAccountNo}" style="text-align:center">
+					<h:outputText value="#{bank.bankAccountNo}" />
+				</p:column>
+
+				<p:column headerText="bank IFSC" sortBy="#{bank.bankIfsc}" filterBy="#{bank.bankIfsc}"
+					style="text-align:center">
+					<h:outputText value="#{bank.bankIfsc}" />
+				</p:column>
+				
+				<p:column headerText="Bank Branch" sortBy="#{bank.bankBranch}" filterBy="#{bank.bankBranch}"
+					style="text-align:center">
+					<h:outputText value="#{bank.bankBranch}" />
+				</p:column>
+				
+				<p:column headerText="Bank Account Type" sortBy="#{bank.bankAccountType}" filterBy="#{bank.bankAccountType}"
+					style="text-align:center">
+					<h:outputText value="#{bank.bankAccountType}" />
+				</p:column>
+				
+				<p:column headerText="Vendor" sortBy="#{bank.vendor.venderName}" filterBy="#{bank.vendor.venderName}"
+					style="text-align:center">
+					<h:outputText value="#{bank.vendor.venderName}" />
+				</p:column>
+				
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</ui:composition>

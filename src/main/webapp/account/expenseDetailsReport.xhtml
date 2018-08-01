@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel style="margin-top:1%">
+
+		<h:form id="reportInputForm">
+
+			<p:panel style="margin-top:1%">
+				<f:facet name="header">Expense Details</f:facet>
+				<h:panelGrid columns="11" layout="grid" style="border: none">
+
+					<p:outputLabel for="start" style="font-size:16px;font-weight:bold"
+						value="Start (DD/MM/YYYY)" />
+
+					<p:calendar required="true" id="start" pattern="dd-MMMM-yyyy"
+						style="padding-right:5%" requiredMessage="Enter Start Date"
+						value="#{accountBean.startDate}" />
+					<p:message for="start" />
+
+					<p:outputLabel for="end" style="font-size:16px;font-weight:bold;"
+						value="End (DD/MM/YYYY)" />
+
+					<p:calendar required="true" id="end" pattern="dd-MMMM-yyyy"
+						requiredMessage="Enter End Date" value="#{accountBean.endDate}" />
+					<p:message for="end" />
+
+					<p:commandButton value="Search"
+						action="#{accountBean.expenseDetailsList()}"
+						update=":reportInputForm" />
+
+				</h:panelGrid>
+			</p:panel>
+			
+			<p:panel style="margin-top:1%" rendered="#{not empty accountBean.expenseDetailsList}">
+				<h:panelGrid style="width:100%;border:none" columns="5">
+					<p:outputLabel style="font-size:16px;font-weight:bold;color:Teal"
+						value="Total Amount: #{accountBean.calculateTotalAmount()}" />
+						
+					<p:outputLabel style="font-size:16px;font-weight:bold;color:Teal"
+						value="Total Service Tax: #{accountBean.calculateTotalServiceTax()}" />
+						
+					<p:outputLabel style="font-size:16px;font-weight:bold;color:Teal"
+						value="Total TDS: #{accountBean.calculateTotalTDS()}" />
+						
+					<p:outputLabel style="font-size:16px;font-weight:bold;color:Teal"
+						value="Total NET: #{accountBean.calculateTotalNetAmount()}" />
+						
+					<p:outputLabel style="font-size:16px;font-weight:bold;color:Teal"
+						value="Total Due Amount: #{accountBean.calculateTotalDueAmount()}" />
+						
+				</h:panelGrid>
+			</p:panel>
+
+			<p:panel rendered="#{not empty accountBean.expenseDetailsList}" style="margin-top:1%">
+
+				<p:dataTable var="exp" value="#{accountBean.expenseDetailsList}">
+				
+					<p:column headerText="Id">
+						<h:outputText value="#{exp.expenseId}" />
+					</p:column>
+				
+					<p:column headerText="Account">
+						<h:outputText value="#{exp.account.accountName}" />
+					</p:column>
+					<p:column headerText="Vendor">
+						<h:outputText value="#{exp.vendor.venderName}" />
+					</p:column>
+					<p:column headerText="Invoice No." >
+						<h:outputText value="#{exp.invoiceNo}" />
+					</p:column>
+					<p:column headerText="Invoice Date" >
+						<h:outputText value="#{exp.invoiceDate}" />
+					</p:column>
+					<p:column headerText="Service Tax" >
+						<h:outputText value="#{exp.serviceTax}" />
+					</p:column>
+					<p:column headerText="Total Amount" >
+						<h:outputText value="#{exp.totalAmount}" />
+					</p:column>
+					<p:column headerText="TDS Amount" >
+						<h:outputText value="#{exp.tdsAmount}" />
+					</p:column>
+					<p:column headerText="NET Amount" >
+						<h:outputText value="#{exp.netAmount}" />
+					</p:column>
+					<p:column headerText="Due Amount" >
+						<h:outputText  value="#{exp.expenseDue}" />
+					</p:column>
+					<p:column headerText="Payment Status" >
+						<h:outputText value="#{exp.paymentStatus}" />
+					</p:column>
+					<p:column headerText="Expense Type" >
+						<h:outputText value="#{exp.expenseType}" />
+					</p:column>
+					<p:column headerText="Approval Status" >
+						<h:outputText value="#{exp.isApproved}" />
+					</p:column>
+					<p:column headerText="Approved By" >
+						<h:outputText value="#{exp.userByApprovedBy.name}" />
+					</p:column>
+					<p:column headerText="Approved Date" >
+						<h:outputText value="#{exp.approvedDate}" />
+					</p:column>
+					
+				</p:dataTable>
+
+			</p:panel>
+
+
+		</h:form>
+	</p:panel>
+</ui:composition>

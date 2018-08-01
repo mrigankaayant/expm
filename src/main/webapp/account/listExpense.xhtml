@@ -1,0 +1,181 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form>
+	
+		<p:panel style="margin-top:1%">
+		
+			<f:facet name="header">Expense List</f:facet>
+				
+				
+			<p:dataTable var="exp" value="#{accountBean.expenseLazyModel}" paginator="true"
+				rows="50" resizableColumns="true" resizeMode="true" widgetVar="advanceSearch" sortBy="#{exp.expenseId}"
+				sortOrder="descending"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				rowsPerPageTemplate="50,100,200,300,500" selectionMode="single" selection="#{accountBean.selectedExpense}"
+				rowKey="#{exp.expenseId}" lazy="true" tableStyle="width:auto;table-layout:auto" >	
+				
+				<f:facet name="header">Expense</f:facet>
+				
+				<p:ajax event="rowDblselect" listener="#{accountBean.onRowSelectInExpenseList}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+
+				<p:column headerText="Id" sortBy="#{exp.expenseId}" filterBy="#{exp.expenseId}" style="text-align:center">
+					<h:outputText value="#{exp.expenseId}" />
+				</p:column>
+				
+				<p:column headerText="Account" sortBy="#{exp.account.accountName}" filterBy="#{exp.account.accountName}"
+					style="text-align:center">
+					<h:outputText value="#{exp.account.accountName}" />
+				</p:column>
+
+				<p:column headerText="Vendor" sortBy="#{exp.vendor.venderName}" filterBy="#{exp.vendor.venderName}" style="text-align:center">
+					<h:outputText value="#{exp.vendor.venderName}" />
+				</p:column>
+
+				<p:column headerText="Invoice No." sortBy="#{exp.invoiceNo}" filterBy="#{exp.invoiceNo}"
+					style="text-align:center">
+					<h:outputText value="#{exp.invoiceNo}" />
+				</p:column>
+				
+				<p:column headerText="Invoice Date" sortBy="#{exp.invoiceDate}" filterBy="#{exp.invoiceDate}">
+					<f:facet name="filter">
+						<p:calendar pattern="MM/dd/yyyy" showButtonPanel="true">
+							<p:ajax event="dateSelect" oncomplete="PF('advanceSearch').filter()" />
+						</p:calendar>
+					</f:facet>
+
+					<h:outputText value="#{exp.invoiceDate}">
+						<f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Service Tax" sortBy="#{exp.serviceTax}" filterBy="#{exp.serviceTax}"
+					style="text-align:center">
+					<h:outputText value="#{exp.serviceTax}" />
+				</p:column>
+				
+				<p:column headerText="Total Amount" sortBy="#{exp.totalAmount}" filterBy="#{exp.totalAmount}"
+					style="text-align:center">
+					<h:outputText value="#{exp.totalAmount}" />
+				</p:column>
+				
+				<p:column headerText="TDS Amount" sortBy="#{exp.tdsAmount}" filterBy="#{exp.tdsAmount}"
+					style="text-align:center">
+					<h:outputText value="#{exp.tdsAmount}" />
+				</p:column>
+				
+				<p:column headerText="NET Amount" sortBy="#{exp.netAmount}" filterBy="#{exp.netAmount}"
+					style="text-align:center">
+					<h:outputText value="#{exp.netAmount}" />
+				</p:column>
+				
+				<p:column headerText="Due Amount" sortBy="#{exp.expenseDue}" filterBy="#{exp.expenseDue}"
+					style="text-align:center">
+					<h:outputText value="#{exp.expenseDue}" />
+				</p:column>
+				
+				<p:column headerText="Payment Status" sortBy="#{exp.paymentStatus}" filterBy="#{exp.paymentStatus}" filterMatchMode="contains">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('advanceSearch').filter()">
+							<f:selectItem itemLabel="Payment Status" itemValue=" " noSelectionOption="true" />
+							<f:selectItem itemLabel="NOT PAID" itemValue="NOT PAID"/>
+							<f:selectItem itemLabel="PARTIALLY PAID" itemValue="PARTIALLY PAID"/>
+							<f:selectItem itemLabel="FULL PAID" itemValue="FULL PAID"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{exp.paymentStatus}" />
+				</p:column>
+				
+				<p:column headerText="Expense Type" sortBy="#{exp.expenseType}" filterBy="#{exp.expenseType}" filterMatchMode="contains">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('advanceSearch').filter()">
+							<f:selectItem itemLabel="Expense Type" itemValue=" " noSelectionOption="true" />
+							<f:selectItem itemLabel="INCURRED" itemValue="INCURRED"/>
+							<f:selectItem itemLabel="ACCRUED" itemValue="ACCRUED"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{exp.expenseType}" />
+				</p:column>
+			
+				
+				<p:column headerText="Approval Status" sortBy="#{exp.isApproved}" filterBy="#{exp.isApproved}" filterMatchMode="contains">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('advanceSearch').filter()">
+							<f:selectItem itemLabel="Approved Status" itemValue=" " noSelectionOption="true" />
+							<f:selectItem itemLabel="Approved" itemValue="true"/>
+							<f:selectItem itemLabel="Not Approved" itemValue="false"/>
+							<f:selectItem itemLabel="Pending" itemValue="null"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{exp.isApproved}" />
+				</p:column>
+				
+				<p:column headerText="Approved By" sortBy="#{exp.userByApprovedBy.name}" filterBy="#{exp.userByApprovedBy.name}"
+					style="text-align:center">
+					<h:outputText value="#{exp.userByApprovedBy.name}" />
+				</p:column>
+				
+				
+				<p:column headerText="Approved Date" sortBy="#{exp.approvedDate}" filterBy="#{exp.approvedDate}">
+					<f:facet name="filter">
+						<p:calendar pattern="MM/dd/yyyy" showButtonPanel="true">
+							<p:ajax event="dateSelect" oncomplete="PF('advanceSearch').filter()" />
+						</p:calendar>
+					</f:facet>
+
+					<h:outputText value="#{exp.approvedDate}">
+						<f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Cancel Status" sortBy="#{exp.isCancel}" filterBy="#{exp.isCancel}" filterMatchMode="contains">
+					<f:facet name="filter">
+						<p:selectOneMenu onchange="PF('advanceSearch').filter()">
+							<f:selectItem itemLabel="Cancel Status" itemValue=" " noSelectionOption="true" />
+							<f:selectItem itemLabel="Canceled" itemValue="true"/>
+							<f:selectItem itemLabel="Not Cancel" itemValue="false"/>
+						</p:selectOneMenu>
+					</f:facet>
+					<h:outputText value="#{exp.isCancel}" />
+				</p:column>
+				
+				
+				<p:column headerText="Cancel By" sortBy="#{exp.userByCancelBy.name}" filterBy="#{exp.userByCancelBy.name}"
+					style="text-align:center">
+					<h:outputText value="#{exp.userByCancelBy.name}" />
+				</p:column>
+				
+				
+				<p:column headerText="Cancel Date" sortBy="#{exp.cancelDate}" filterBy="#{exp.cancelDate}">
+					<f:facet name="filter">
+						<p:calendar pattern="MM/dd/yyyy" showButtonPanel="true">
+							<p:ajax event="dateSelect" oncomplete="PF('advanceSearch').filter()" />
+						</p:calendar>
+					</f:facet>
+
+					<h:outputText value="#{exp.cancelDate}">
+						<f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				
+				
+				<p:column headerText="Cancel Reason" sortBy="#{exp.reasonForCancel}" filterBy="#{exp.reasonForCancel}"
+					style="text-align:center">
+					<h:outputText value="#{exp.reasonForCancel}" />
+				</p:column>
+				
+				
+				
+				<p:column headerText="Description" sortBy="#{exp.description}" filterBy="#{exp.description}"
+					style="text-align:center">
+					<h:outputText value="#{exp.description}" />
+				</p:column>
+				
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</ui:composition>

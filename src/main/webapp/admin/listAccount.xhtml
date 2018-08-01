@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form>
+	
+		<p:panel style="margin-top:1%">
+		
+			<f:facet name="header">Account List</f:facet>
+			
+			<p:dataTable var="account" value="#{adminBean.accounts}" paginator="true" rows="20"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				sortBy="#{account.accountId}" rowKey="#{account.accountId}" sortOrder="descending" selectionMode="single" selection="#{adminBean.selectedAccount}" 
+				rowsPerPageTemplate="20,25,50,100" id="account-table" widgetVar="accountTable">
+				
+				<f:facet name="header">Accounts</f:facet>
+				
+				<p:ajax event="rowDblselect" listener="#{adminBean.onRowSelect}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+
+				<p:column headerText="Id" sortBy="#{account.accountId}" filterBy="#{account.accountId}" style="text-align:center">
+					<h:outputText value="#{account.accountId}" />
+				</p:column>
+
+				<p:column headerText="Account Name" sortBy="#{account.accountName}" filterBy="#{account.accountName}" style="text-align:center">
+					<h:outputText value="#{account.accountName}" />
+				</p:column>
+
+				<p:column headerText="Description" sortBy="#{account.description}" filterBy="#{account.description}"
+					style="text-align:center">
+					<h:outputText value="#{account.description}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</ui:composition>

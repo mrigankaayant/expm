@@ -1,0 +1,1295 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<h:form id="expenseDetails">
+		<p:panel style="margin-top: 1%;">
+
+			<f:facet name="header">
+
+				<p:commandButton value="Back"
+					action="#{adminBean.backToExpenseList()}" update=":mainBody"
+					oncomplete="PF('statusDialog').hide()" />
+
+
+				<span style="margin-left: 39%; margin-right: 33%"> Payment
+					Details </span>
+
+				<p:commandButton value="Payment"
+					rendered="#{adminBean.expense.expenseType eq 'INCURRED' and !adminBean.expense.isApproved and !adminBean.expense.isCancel}"
+					actionListener="#{adminBean.showPaymentForm()}"
+					update=":payment-form" immediate="true"
+					oncomplete="PF('addPaymentDlg').show();" />
+
+				<p:commandButton value="Payment"
+					rendered="#{! (adminBean.expense.isCancel or !adminBean.expense.isApproved)}"
+					actionListener="#{adminBean.showPaymentForm()}"
+					update=":payment-form" immediate="true"
+					oncomplete="PF('addPaymentDlg').show();" />
+
+				<p:commandButton value="Approve"
+					disabled="#{adminBean.expense.isCancel or adminBean.expense.isApproved}"
+					actionListener="#{adminBean.expenseApproved()}"
+					update=":expenseDetails" immediate="true"
+					onclick="return confirm('Do you want to approve!')" />
+
+				<p:commandButton value="Cancel"
+					action="#{adminBean.cancelResonForm()}" update=":expenseDetails"
+					oncomplete="PF('cancelReasonDlg').show();"
+					disabled="#{adminBean.expense.isCancel}" />
+
+			</f:facet>
+
+
+			<div class="ui-g"
+				style="margin-left: 10%; margin-top: 1%; border: none;">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Expense Id :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.expenseId}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Account Name :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.account.accountName}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Name :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.vendor.venderName}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Invoice Number :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.invoiceNo}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Invoice Date :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.invoiceDate}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Service Tax :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.serviceTax}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Total Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.totalAmount}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="TDS Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.tdsAmount}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Net Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.netAmount}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Due Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.expenseDue}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Payment Status :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.paymentStatus}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Expense Type :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.expenseType}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Approved Status :" />
+						<c:if test="${adminBean.expense.isApproved eq 'true'}">
+							<h:outputText value="Approved"
+								style="color:green;font-weight: bold;" />
+						</c:if>
+						<c:if test="${adminBean.expense.isApproved eq 'false'}">
+							<h:outputText value="Not Approved"
+								style="color:red;font-weight: bold;" />
+						</c:if>
+					</h:panelGrid>
+				</div>
+
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Entry Date :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.entryDate}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Entry By :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.expense.userByEntryBy.name}" />
+					</h:panelGrid>
+				</div>
+
+			</div>
+
+
+			<p:panel style="border:none;margin-right:6.4%">
+				<div class="ui-g" style="margin-left: 10%; border: none;">
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid style="border: none;" columns="1">
+							<p:outputLabel for="description"
+								style="font-size:16px;font-weight: bold;color:blue"
+								value="Description:" />
+						</h:panelGrid>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid columns="1" style="border: none;width:100%">
+
+							<p:inputTextarea id="description"
+								style="border:none;background-color:HoneyDew" readonly="true"
+								value="#{adminBean.expense.description}" autoResize="true" />
+
+						</h:panelGrid>
+					</div>
+				</div>
+			</p:panel>
+
+			<p:panel style="border:none"
+				rendered="#{adminBean.expense.isApproved}">
+				<div class="ui-g" style="margin-left: 10%; border: none;">
+
+
+
+					<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+							<p:outputLabel style="font-size:16px" value="Approved By :" />
+							<h:outputText style="font-size:16px"
+								value="#{adminBean.expense.userByApprovedBy.name}" />
+						</h:panelGrid>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+							<p:outputLabel style="font-size:16px" value="Approved Date :" />
+							<h:outputText style="font-size:16px"
+								value="#{adminBean.expense.approvedDate}" />
+						</h:panelGrid>
+					</div>
+				</div>
+			</p:panel>
+
+			<p:panel style="border:none" rendered="#{adminBean.expense.isCancel}">
+				<div class="ui-g" style="margin-left: 10%; border: none;">
+					<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+							<p:outputLabel style="font-size:16px" value="Cancel Status :" />
+							<c:if test="${adminBean.expense.isCancel eq 'true'}">
+								<h:outputText value="Cancel"
+									style="color:red;font-weight: bold;" />
+							</c:if>
+							<c:if test="${adminBean.expense.isCancel eq 'false'}">
+								<h:outputText value="Not Cancel" />
+							</c:if>
+						</h:panelGrid>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+							<p:outputLabel style="font-size:16px" value="Cancel Date :" />
+							<h:outputText style="font-size:16px"
+								value="#{adminBean.expense.cancelDate}" />
+						</h:panelGrid>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+							<p:outputLabel style="font-size:16px" value="Cancel By :" />
+							<h:outputText style="font-size:16px"
+								value="#{adminBean.expense.userByCancelBy.name}" />
+						</h:panelGrid>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-6" style="border: none;">
+						<h:panelGrid style="border: none;" columns="1">
+							<p:outputLabel
+								style="font-size:16px;font-weight: bold;color:Blue"
+								value="Cancel Reason :" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+				<div class="ui-g" style="margin-left: 10%; border: none;">
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid style="border: none;width:93%" columns="1">
+							<p:inputTextarea id="resonForCancel"
+								style="border: none;background-color:HoneyDew " readonly="true"
+								value="#{adminBean.expense.reasonForCancel}" autoResize="true" />
+						</h:panelGrid>
+					</div>
+				</div>
+			</p:panel>
+
+
+
+
+			<p:panel style="border:none"
+				rendered="#{not empty adminBean.expense.expenseDocumentses}">
+				<div class="ui-g"
+					style="margin-left: 10%; margin-right: 10%; border: none;">
+
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid style="border: none;" columns="1">
+							<p:outputLabel
+								style="font-weight: bold;font-size:18px;color:Teal"
+								value="Documents :- " />
+						</h:panelGrid>
+					</div>
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+
+							<c:forEach items="${adminBean.expense.expenseDocumentses}"
+								var="doc">
+								<p:outputLabel style="font-size:16px" value="File Name : " />
+
+								<h:commandLink action="#{adminBean.openFile()}"
+									value="#{doc.fileName}" target="_blank" immediate="true">
+									<f:param name="filePath" value="#{doc.filePath}" />
+									<f:param name="filename" value="#{doc.fileName}" />
+									<f:param name="extension" value="#{doc.extension}" />
+								</h:commandLink>
+
+							</c:forEach>
+
+						</h:panelGrid>
+					</div>
+
+				</div>
+			</p:panel>
+
+		</p:panel>
+	</h:form>
+
+	<h:form id="Paymentdetails">
+
+		<p:panel style="text-align:center;margin-top:1%;"
+			id="paymentDetailsPanel"
+			rendered="#{not empty adminBean.expense.paymentDetails}">
+			<c:forEach items="${adminBean.expense.paymentDetails}" var="p">
+				<p:panel style="margin-top:1%;"
+					header="Payment Details Of Payment Id : #{p.paymentId}"
+					styleClass="customTitleBar">
+
+					<div class="ui-g"
+						style="margin-left: 10%; margin-right: 10%; border: none;">
+
+						<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Payment Id :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.paymentId}" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Mode Of Payment :"
+									style="font-weight: bold;" />
+								<p:outputLabel value="#{p.modeOfPayment}" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Amount :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.amount}" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Entry Date :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.entryDate}" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-12 ui-md-12 ui-lg-12" style="border: none;">
+							<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+								<h:panelGrid style="border: none;" columns="2">
+									<p:outputLabel for="description"
+										style="font-size:16px;font-weight: bold;color:blue"
+										value="Description:" />
+								</h:panelGrid>
+							</div>
+
+							<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+								<h:panelGrid columns="1" style="border: none;width:100%">
+
+									<p:inputTextarea id="description"
+										style="border:none;background-color:HoneyDew" readonly="true"
+										value="#{p.description}" autoResize="true" />
+								</h:panelGrid>
+							</div>
+						</div>
+					</div>
+
+
+					<p:panel style="border:none" rendered="#{p.isCancel}">
+						<div class="ui-g" style="margin-left: 10%; border: none;">
+
+							<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+								<h:panelGrid style="border: none;" columns="2">
+									<p:outputLabel style="font-size:16px" value="Cancel Date:" />
+									<h:outputText style="font-size:16px" value="#{p.cancelDate}" />
+								</h:panelGrid>
+							</div>
+
+							<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+								<h:panelGrid style="border: none;" columns="2">
+									<p:outputLabel style="font-size:16px" value="Cancel Reason:" />
+									<h:outputText style="font-size:16px"
+										value="#{p.reasonForCancel}" />
+								</h:panelGrid>
+							</div>
+
+							<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+								<h:panelGrid style="border: none;" columns="2">
+									<p:outputLabel style="font-size:16px" value="Cancel By:" />
+									<h:outputText style="font-size:16px"
+										value="#{p.userByCancelBy.name}" />
+								</h:panelGrid>
+							</div>
+						</div>
+					</p:panel>
+
+
+					<p:panel style="border:none"
+						rendered="#{not empty p.paymentsDocumentses}">
+						<div class="ui-g"
+							style="margin-left: 9%; margin-right: 10%; margin-top: 1%; border: none;">
+
+							<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+								<h:panelGrid style="border: none;" columns="1">
+									<p:outputLabel
+										style="font-weight: bold;font-size:18px;color:Teal"
+										value="Documents :- " />
+								</h:panelGrid>
+							</div>
+							<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+								<h:panelGrid style="border: none;" columns="2">
+									<c:forEach items="${p.paymentsDocumentses}" var="paymentDoc">
+										<p:outputLabel style="font-size:16px" value="File Name : " />
+										<h:commandLink action="#{adminBean.openFile()}"
+											value="#{paymentDoc.fileName}" target="_blank"
+											immediate="true">
+											<f:param name="filePath" value="#{paymentDoc.filePath}" />
+											<f:param name="filename" value="#{paymentDoc.fileName}" />
+											<f:param name="extension" value="#{paymentDoc.extension}" />
+										</h:commandLink>
+									</c:forEach>
+								</h:panelGrid>
+							</div>
+
+						</div>
+					</p:panel>
+
+					<c:forEach items="${p.cashBooks}" var="cashBook">
+						<p:panel header="Cash Book Details"
+							rendered="#{p.modeOfPayment eq 'CASH'}"
+							styleClass="customTitleBarForCardTxnPanel">
+
+							<div class="ui-g"
+								style="margin-left: 10%; margin-right: 10%; border: none;">
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Id :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cashBook.txnId}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Type :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cashBook.txnType}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Amount :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cashBook.credit}" />
+									</h:panelGrid>
+								</div>
+
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Entry Date :" style="font-weight: bold;" />
+										<p:outputLabel value="#{cashBook.entryDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Description :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cashBook.description}" />
+									</h:panelGrid>
+								</div>
+
+							</div>
+
+						</p:panel>
+					</c:forEach>
+
+
+
+
+
+					<c:forEach items="${p.cardBooks}" var="cardBook">
+						<p:panel header="Card Book Details"
+							rendered="#{p.modeOfPayment eq 'CARD'}"
+							styleClass="customTitleBarForCardTxnPanel">
+
+							<div class="ui-g"
+								style="margin-left: 10%; margin-right: 10%; border: none;">
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Id :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.txnId}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Swipe Date :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.cardSwipedDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Swipe By :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.cardSwipedBy}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Amount :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.amount}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Entry Date :" style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.entryDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Description :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.description}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Bank Name:" style="font-weight: bold;" />
+										<p:outputLabel
+											value="#{cardBook.bankInternalCard.bankInternal.bankName}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Account No:" style="font-weight: bold;" />
+										<p:outputLabel
+											value="#{cardBook.bankInternalCard.bankInternal.accountNo}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card No:" style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.bankInternalCard.cardNo}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Holder Name:"
+											style="font-weight: bold;" />
+										<p:outputLabel
+											value="#{cardBook.bankInternalCard.cardHolderName}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Type:" style="font-weight: bold;" />
+										<p:outputLabel value="#{cardBook.bankInternalCard.cardType}" />
+									</h:panelGrid>
+								</div>
+
+							</div>
+
+						</p:panel>
+					</c:forEach>
+
+
+
+
+
+
+					<c:forEach items="${p.neftBooks}" var="neftBook">
+						<p:panel header="Neft Book Details"
+							rendered="#{p.modeOfPayment eq 'NEFT'}"
+							styleClass="customTitleBarForCardTxnPanel">
+
+							<div class="ui-g"
+								style="margin-left: 10%; margin-right: 10%; border: none;">
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Id :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.txnId}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Payee Name :" style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.payeeName}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Payee Bank Name :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.payeeBankName}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Payee Bank Ifsc :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.payeeBankIfsc}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Payee Bank Branch :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.payeeBankBranch}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Neft Date:" style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.neftDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Neft Status:" style="font-weight: bold;" />
+										<c:if test="${neftBook.neftStatus eq 'SUCCESS'}">
+											<p:outputLabel value="#{neftBook.neftStatus}"
+												style="color:green;font-weight: bold;" />
+										</c:if>
+										<c:if test="${neftBook.neftStatus eq 'FAILURE'}">
+											<p:outputLabel value="#{neftBook.neftStatus}"
+												style="color:red;font-weight: bold;" />
+										</c:if>
+
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Amount :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.amount}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Entry Date :" style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.entryDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Description :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{neftBook.description}" />
+									</h:panelGrid>
+								</div>
+
+							</div>
+
+							<p:panel style="border:none">
+
+								<div class="ui-g"
+									style="margin-left: 9%; margin-right: 10%; margin-top: 1%; border: none;">
+
+									<div class="ui-g-12 ui-md-12 ui-lg-12" style="border: none;">
+										<h:panelGrid style="border: none;" columns="1">
+											<p:outputLabel
+												style="font-weight: bold;font-size:18px;color:Teal"
+												value="Neft Status :- " />
+										</h:panelGrid>
+									</div>
+
+									<div class="ui-g-12 ui-md-12 ui-lg-12" style="border: none;">
+										<h:panelGrid style="border: none;" columns="2">
+											<p:commandButton
+												action="#{adminBean.updateNeftStatus(neftBook,adminBean.expense.expenseId,adminBean.expense.netAmount,adminBean.expense.expenseDue,'SUCCESS')}"
+												update=":Paymentdetails"
+												onclick="return confirm('Are you sure?')" value="Success"
+												style="background:green" />
+											<p:commandButton
+												action="#{adminBean.updateNeftStatus(neftBook,adminBean.expense.expenseId,adminBean.expense.netAmount,adminBean.expense.expenseDue,'FAILURE')}"
+												update=":Paymentdetails"
+												onclick="return confirm('Are you sure?')" value="Failure"
+												style="background:red" />
+										</h:panelGrid>
+									</div>
+								</div>
+							</p:panel>
+						</p:panel>
+					</c:forEach>
+
+
+					<c:forEach items="${p.chequeBooks}" var="chequeBook">
+						<p:panel header="Cheque Book Details"
+							rendered="#{p.modeOfPayment eq 'CHEQUE'}"
+							styleClass="customTitleBarForCardTxnPanel">
+
+							<div class="ui-g"
+								style="margin-left: 10%; margin-right: 10%; border: none;">
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Cheque No :" style="font-weight: bold;" />
+										<p:outputLabel value="#{chequeBook.chequeNo}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Payee Name :" style="font-weight: bold;" />
+										<p:outputLabel value="#{chequeBook.payeeName}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Payable Date :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{chequeBook.payableDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Cheque Status:"
+											style="font-weight: bold;" />
+
+										<c:if test="${chequeBook.chequeStatus eq 'CLEARED'}">
+											<p:outputLabel value="#{chequeBook.chequeStatus}"
+												style="color:green;font-weight: bold;" />
+										</c:if>
+										<c:if test="${chequeBook.chequeStatus eq 'CANCELED'}">
+											<p:outputLabel value="#{chequeBook.chequeStatus}"
+												style="color:red;font-weight: bold;" />
+										</c:if>
+										<c:if test="${chequeBook.chequeStatus eq 'BOUNCED'}">
+											<p:outputLabel value="#{chequeBook.chequeStatus}"
+												style="color:red;font-weight: bold;" />
+										</c:if>
+									</h:panelGrid>
+								</div>
+
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Amount :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{chequeBook.amount}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Entry Date :" style="font-weight: bold;" />
+										<p:outputLabel value="#{chequeBook.entryDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Account Payable :"
+											style="font-weight: bold;" />
+										<c:if test="${chequeBook.isAccountPayable eq 'true'}">
+											<h:outputText value="Yes" />
+										</c:if>
+										<c:if test="${chequeBook.isAccountPayable  ne 'true'}">
+											<h:outputText value="No" />
+										</c:if>
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-3" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Description :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{chequeBook.description}" />
+									</h:panelGrid>
+								</div>
+
+							</div>
+							<p:panel style="border:none">
+
+								<div class="ui-g"
+									style="margin-left: 9%; margin-right: 10%; margin-top: 1%; border: none;">
+
+									<div class="ui-g-12 ui-md-12 ui-lg-12" style="border: none;">
+										<h:panelGrid style="border: none;" columns="1">
+											<p:outputLabel
+												style="font-weight: bold;font-size:18px;color:Teal"
+												value="Cheque Status :- " />
+										</h:panelGrid>
+									</div>
+
+									<div class="ui-g-12 ui-md-12 ui-lg-12" style="border: none;">
+										<h:panelGrid style="border: none;" columns="3">
+											<p:commandButton value="Clear"
+												action="#{adminBean.updateChequeStatus(chequeBook,adminBean.expense.expenseId,adminBean.expense.netAmount,adminBean.expense.expenseDue,'CLEARED')}"
+												update=":Paymentdetails"
+												onclick="return confirm('Are you sure?')"
+												style="background:green" />
+											<p:commandButton value="Cancel"
+												action="#{adminBean.updateChequeStatus(chequeBook,adminBean.expense.expenseId,adminBean.expense.netAmount,adminBean.expense.expenseDue,'CANCELED')}"
+												update=":Paymentdetails"
+												onclick="return confirm('Are you sure?')"
+												style="background:red" />
+											<p:commandButton value="Bounced"
+												action="#{adminBean.updateChequeStatus(chequeBook,adminBean.expense.expenseId,adminBean.expense.netAmount,adminBean.expense.expenseDue,'BOUNCED')}"
+												update=":Paymentdetails"
+												onclick="return confirm('Are you sure?')"
+												style="background:red" />
+										</h:panelGrid>
+									</div>
+								</div>
+							</p:panel>
+						</p:panel>
+					</c:forEach>
+
+				</p:panel>
+			</c:forEach>
+		</p:panel>
+
+	</h:form>
+
+
+
+	<h:form id="cancel-reason-form">
+		<p:dialog id="dialog" header="Cancel Reason"
+			widgetVar="cancelReasonDlg" modal="true" showEffect="explode"
+			hideEffect="fade" width="800">
+
+			<p:panel style="margin-top:1%" id="cancel-panelId">
+
+				<f:facet name="header"> Cancel Reason</f:facet>
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:inputTextarea id="reason" value="#{adminBean.cancelReason}"
+								required="true" requiredMessage="Enter Cancel Reason" rows="10" />
+							<p:message for="reason" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+				<f:facet name="footer">
+					<div style="text-align: center">
+						<p:commandButton value="Save"
+							oncomplete="handleLoginRequest(xhr, status, args)"
+							actionListener="#{adminBean.cancelExpense()}"
+							update="cancel-panelId,:expenseDetails" />
+					</div>
+				</f:facet>
+			</p:panel>
+		</p:dialog>
+	</h:form>
+
+
+
+
+
+	<h:form id="payment-form" enctype="multipart/form-data">
+		<p:dialog header="Add Payment" id="dialog" widgetVar="addPaymentDlg"
+			modal="true" showEffect="explode" hideEffect="fade" width="900"
+			height="500" responsive="true">
+
+
+			<p:panel style="margin-top:1%" id="payment-panelId">
+
+				<f:facet name="header">Make Payment</f:facet>
+
+				<div class="ui-g">
+
+
+
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+
+						<h:panelGrid style="width:100%"
+							rendered="#{adminBean.expense.expenseType eq 'ACCRUED'}">
+							<p:outputLabel for="mode-Of-Payment" value="Mode Of Payment:" />
+
+							<p:selectOneMenu id="mode-Of-Payment" style="width:94%!important"
+								value="#{adminBean.paymentDetail.modeOfPayment}"
+								validator="#{adminBean.checkModeOfPayment}" required="true"
+								requiredMessage="Select Mode Of Payment">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="CASH" itemLabel="CASH" />
+								<f:selectItem itemValue="CHEQUE" itemLabel="CHEQUE" />
+								<f:selectItem itemValue="CARD" itemLabel="CARD" />
+								<f:selectItem itemValue="NEFT" itemLabel="NEFT" />
+								<p:ajax update="payment-panelId" event="change" />
+							</p:selectOneMenu>
+
+							<p:message for="mode-Of-Payment" />
+						</h:panelGrid>
+
+
+						<h:panelGrid style="width:100%"
+							rendered="#{adminBean.expense.expenseType eq 'INCURRED'}">
+							<p:outputLabel for="mode-Of-Payment-incurred"
+								value="Mode Of Payment:" />
+							<p:selectOneMenu id="mode-Of-Payment-incurred"
+								style="width:94%!important"
+								value="#{adminBean.paymentDetail.modeOfPayment}"
+								validator="#{adminBean.checkModeOfPayment}" required="true"
+								requiredMessage="Select Mode Of Payment">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="CASH" itemLabel="CASH" />
+								<f:selectItem itemValue="CARD" itemLabel="CARD" />
+								<p:ajax update="payment-panelId" event="change" />
+							</p:selectOneMenu>
+
+							<p:message for="mode-Of-Payment-incurred" />
+						</h:panelGrid>
+
+					</div>
+
+				</div>
+
+
+				<p:outputPanel
+					rendered="#{adminBean.paymentDetail.modeOfPayment eq 'CARD' or adminBean.paymentDetail.modeOfPayment eq 'CHEQUE' or adminBean.paymentDetail.modeOfPayment eq 'NEFT'}">
+					<div class="ui-g">
+						<div class="ui-g-12 ui-md-12 ui-lg-12">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="bank-name" value="Bank:" />
+
+								<p:selectOneMenu id="bank-name" value="#{adminBean.bankId}"
+									required="true" requiredMessage="Select Bank"
+									validator="#{adminBean.getBankNameForPayment}"
+									style="width:94%!important">
+									<f:selectItem itemLabel="Select Bank" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{appDataBean.bankInternalList}" var="b"
+										itemLabel="#{b.bankName} - #{b.accountNo}" itemValue="#{b.id}" />
+									<p:ajax event="change" update="payment-panelId" />
+								</p:selectOneMenu>
+								<p:message for="bank-name" />
+							</h:panelGrid>
+						</div>
+					</div>
+				</p:outputPanel>
+
+
+
+
+
+				<p:panel id="cardBook-panel"
+					rendered="#{adminBean.cardDetailsPanelShow}">
+					<div class="ui-g">
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-no" value="Card Number:" />
+								<p:selectOneMenu id="card-no" value="#{adminBean.cardId}"
+									required="true" requiredMessage="Select Card Number"
+									validator="#{adminBean.getCardNumberForPayment}">
+									<f:selectItem itemLabel="Select Card" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{adminBean.cards}" var="c"
+										itemLabel="#{c.cardNo}" itemValue="#{c.id}" />
+									<p:ajax event="change" update="payment-panelId" />
+								</p:selectOneMenu>
+								<p:message for="card-no" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="account-no" value="Account Number:" />
+								<p:inputText id="account-no"
+									value="#{adminBean.bankInternalCard.bankInternal.accountNo}"
+									readonly="true" />
+								<p:message for="account-no" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-holder-name" value="Card Holder name:" />
+								<p:inputText id="card-holder-name"
+									value="#{adminBean.bankInternalCard.cardHolderName}"
+									readonly="true" />
+								<p:message for="card-holder-name" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-type" value="Card Type:" />
+								<p:inputText id="card-type"
+									value="#{adminBean.bankInternalCard.cardType}" readonly="true" />
+								<p:message for="card-type" />
+							</h:panelGrid>
+						</div>
+
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-swiprd-by" value="Card Swiped By:" />
+								<p:selectOneMenu id="card-swiprd-by"
+									value="#{adminBean.cardBook.cardSwipedBy}" required="true"
+									requiredMessage="Select Card Swiped By">
+									<f:selectItem itemLabel="---Select---" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{appDataBean.userList}" var="u"
+										itemLabel="#{u.name}" itemValue="#{u.name}" />
+								</p:selectOneMenu>
+								<p:message for="card-swiprd-by" />
+							</h:panelGrid>
+						</div>
+
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-swiprd-date"
+									value="Card Swiped Date (DD/MM/YYYY):" />
+								<p:calendar id="card-swiprd-date" pattern="dd-MMMM-yyyy"
+									value="#{adminBean.cardBook.cardSwipedDate}" required="true"
+									requiredMessage="Enter Card Swiped Date"
+									placeholder="Card Swiped Date" />
+								<p:message for="card-swiprd-date" />
+							</h:panelGrid>
+						</div>
+					</div>
+				</p:panel>
+
+
+
+
+				<p:panel id="neftBook-panel"
+					rendered="#{adminBean.neftDetailsPanelShow}">
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-name" value="Payee Name:" />
+								<p:inputText id="payee-name"
+									value="#{adminBean.vendorPromaryAccount.payeeName}"
+									readonly="true" />
+								<p:message for="payee-name" />
+							</h:panelGrid>
+						</div>
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-bank-name" value="Payee Bank Name:" />
+								<p:inputText id="payee-bank-name"
+									value="#{adminBean.vendorPromaryAccount.bankName}"
+									readonly="true" />
+								<p:message for="payee-bank-name" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-bank-ifsc" value="Payee Bank IFSC:" />
+								<p:inputText id="payee-bank-ifsc"
+									value="#{adminBean.vendorPromaryAccount.bankIfsc}"
+									readonly="true" />
+								<p:message for="payee-bank-ifsc" />
+							</h:panelGrid>
+						</div>
+					</div>
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-bank-branch"
+									value="Payee Bank Branch:" />
+								<p:inputText id="payee-bank-branch"
+									value="#{adminBean.vendorPromaryAccount.bankBranch}"
+									readonly="true" />
+								<p:message for="payee-bank-branch" />
+							</h:panelGrid>
+						</div>
+
+
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="neft-date" value="NEFT Date (DD/MM/YYYY):" />
+								<p:calendar id="neft-date" pattern="dd-MMMM-yyyy"
+									value="#{adminBean.neftBook.neftDate}" required="true"
+									requiredMessage="Enter NEFT Date" placeholder="NEFT Date" />
+								<p:message for="neft-date" />
+							</h:panelGrid>
+						</div>
+					</div>
+
+				</p:panel>
+
+				<p:panel id="chequeBook-panel"
+					rendered="#{adminBean.chequeDetailsPanelShow}">
+
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="cheque-no" value="Cheque No.:" />
+								<p:selectOneMenu id="cheque-no" value="#{adminBean.checkno}"
+									validator="#{adminBean.getCheckNoForPayment}" required="true"
+									requiredMessage="Select Cheque Number">
+									<f:selectItem itemLabel="Select Cheque No" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{adminBean.cheques}" var="c"
+										itemLabel="#{c.chequeNo}" itemValue="#{c.chequeNo}" />
+									<p:ajax event="change" />
+								</p:selectOneMenu>
+								<p:message for="cheque-no" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="cheque-payee-name" value="Payee Name:" />
+								<p:inputText id="cheque-payee-name"
+									value="#{adminBean.vendorPromaryAccount.payeeName}"
+									readonly="true" />
+								<p:message for="cheque-payee-name" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payable-account"
+									value="Is Payable Account?:" />
+								<h:panelGrid columns="2">
+									<h:outputText value="This is payable account: " />
+									<p:selectBooleanCheckbox id="payable-account"
+										value="#{adminBean.vendorPromaryAccount.primaryAccount}" />
+								</h:panelGrid>
+								<p:message for="payable-account" />
+							</h:panelGrid>
+						</div>
+
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payable-date"
+									value="Payable Date (DD/MM/YYYY):" />
+								<p:calendar id="payable-date" pattern="dd-MMMM-yyyy"
+									value="#{adminBean.chequeBook.payableDate}" required="true"
+									requiredMessage="Enter Payable Date" placeholder="Payable Date" />
+								<p:message for="payable-date" />
+							</h:panelGrid>
+						</div>
+					</div>
+
+				</p:panel>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="amount" value="Amount:" />
+							<p:inputText id="amount" validator="#{adminBean.checkPaidAmount}"
+								value="#{adminBean.paymentDetail.amount}" required="true"
+								converterMessage="Please Enter Number Only"
+								requiredMessage="Enter amount" placeholder="Enter Amount">
+								<p:ajax update="amount-msg" event="change" />
+							</p:inputText>
+							<p:message for="amount" id="amount-msg" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="payment-desc" value="Payment Description:" />
+							<p:inputTextarea id="payment-desc"
+								value="#{adminBean.paymentDetail.description}" required="true"
+								rows="5" cols="30" requiredMessage="Enter Payment Description"
+								placeholder="Payment Description" autoResize="false" />
+
+							<p:message for="payment-desc" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel value="Documents:" />
+							<p:fileUpload fileUploadListener="#{adminBean.paymentFileUpload}"
+								mode="advanced" multiple="true" update="payDoc" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:27.5%;%" columns="2" cellpadding="0"
+							cellspacing="2" id="payDoc">
+							<p:outputLabel value=" Uploaded Documents:"
+								rendered="#{adminBean.paymentFileName.size() > '0'}" />
+							<br></br>
+							<c:forEach items="${adminBean.paymentFileName}" var="doc">
+
+								<p:outputLabel style="font-weight: bold;color:Teal"
+									value="#{doc}" />
+								<p:commandLink actionListener="#{adminBean.paymentFileDelete}"
+									update="payDoc" style="font-weight: bold;color:red"
+									value="delete">
+									<f:param name="deletefile" value="#{doc}" />
+								</p:commandLink>
+							</c:forEach>
+						</h:panelGrid>
+					</div>
+				</div>
+
+				<f:facet name="footer">
+					<div style="text-align: center">
+						<p:commandButton value="Save"
+							oncomplete="handleLoginRequestForPayment(xhr, status, args)"
+							actionListener="#{adminBean.addMorePayment()}"
+							update="payment-panelId,:expenseDetails,:Paymentdetails" />
+					</div>
+				</f:facet>
+
+			</p:panel>
+
+		</p:dialog>
+	</h:form>
+
+
+
+
+
+	<script type="text/javascript">
+    function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed) {
+            PF('cancelReasonDlg').jq.effect("shake", {times:10}, 100);
+        }
+        else {
+            PF('cancelReasonDlg').hide();
+        }
+    }
+
+
+
+    function handleLoginRequestForPayment(xhr, status, args) {
+        if(args.validationFailed) {
+            PF('addPaymentDlg').jq.effect("shake", {times:10}, 100);
+        }
+        else {
+            PF('addPaymentDlg').hide();
+        }
+    }
+
+
+
+    
+    </script>
+
+
+
+
+</ui:composition>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="expm" match-name="account"/>
+  <table-filter match-catalog="expm" match-name="bank"/>
+  <table-filter match-catalog="expm" match-name="bank_internal"/>
+  <table-filter match-catalog="expm" match-name="bank_internal_card"/>
+  <table-filter match-catalog="expm" match-name="card_book"/>
+  <table-filter match-catalog="expm" match-name="cash_book"/>
+  <table-filter match-catalog="expm" match-name="cash_documents"/>
+  <table-filter match-catalog="expm" match-name="cheque_book"/>
+  <table-filter match-catalog="expm" match-name="cheque_no"/>
+  <table-filter match-catalog="expm" match-name="expense"/>
+  <table-filter match-catalog="expm" match-name="expense_documents"/>
+  <table-filter match-catalog="expm" match-name="neft_book"/>
+  <table-filter match-catalog="expm" match-name="payment_detail"/>
+  <table-filter match-catalog="expm" match-name="payments_documents"/>
+  <table-filter match-catalog="expm" match-name="role"/>
+  <table-filter match-catalog="expm" match-name="user"/>
+  <table-filter match-catalog="expm" match-name="user_has_role"/>
+  <table-filter match-catalog="expm" match-name="vendor"/>
+  <table-filter match-catalog="expm" match-name="vendor_documents"/>
+</hibernate-reverse-engineering>

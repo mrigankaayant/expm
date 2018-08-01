@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+
+		<p:panelGrid style="width:40%;margin-left:29%;margin-top:10%;">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="6">Create Account</p:column>
+				</p:row>
+			</f:facet>
+
+		</p:panelGrid>
+		<br></br>
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<p:row>
+				<p:column>
+					<p:outputLabel for="account-name" value="Account Name:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="account-name"
+						value="#{adminBean.account.accountName}" required="true"
+						requiredMessage="Enter Account Name" placeholder="Account Name" />
+						<p:message for="account-name" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="account-desc" value="Description:" />
+				</p:column>
+				<p:column>
+					<p:inputTextarea id="account-desc"
+						value="#{adminBean.account.description}" required="true"
+						rows="5" cols="30" requiredMessage="Enter Account Description"
+						placeholder="Description" autoResize="false" />
+						<p:message for="account-desc" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<f:facet name="footer">
+				<p:row>
+					<p:column colspan="6" class="right-align">
+						<p:commandButton value="Save" onclick="PF('statusDialog').show()"
+							oncomplete="PF('statusDialog').hide()"
+							actionListener="#{adminBean.saveAccount()}" update=":mainBody" />
+					</p:column>
+				</p:row>
+			</f:facet>
+		</p:panelGrid>
+
+	</h:form>
+</ui:composition>

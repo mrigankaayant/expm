@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+	
+		<p:panel style="margin-top:1%">
+		
+			<f:facet name="header">Vendor List</f:facet>
+			
+			<p:dataTable var="vendor" value="#{adminBean.vendors}" paginator="true" rows="20"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				sortBy="#{vendor.venderId}" rowKey="#{vendor.venderId}" sortOrder="descending" selectionMode="single" selection="#{adminBean.selectedVendor}" 
+				rowsPerPageTemplate="20,25,50,100" id="vendor-table" widgetVar="vendorTable">
+				
+				<f:facet name="header">Vendors</f:facet>
+				
+				<p:ajax event="rowDblselect" listener="#{adminBean.onRowSelectInVendorList}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+
+				<p:column headerText="Id" sortBy="#{vendor.venderId}" filterBy="#{vendor.venderId}" style="text-align:center">
+					<h:outputText value="#{vendor.venderId}" />
+				</p:column>
+
+				<p:column headerText="Vendor Name" sortBy="#{vendor.venderName}" filterBy="#{vendor.venderName}" style="text-align:center">
+					<h:outputText value="#{vendor.venderName}" />
+				</p:column>
+
+				<p:column headerText="Vendor Pan No." sortBy="#{vendor.venderPan}" filterBy="#{vendor.venderPan}"
+					style="text-align:center">
+					<h:outputText value="#{vendor.venderPan}" />
+				</p:column>
+				
+				<p:column headerText="Vendor Mobile" sortBy="#{vendor.venderMobile}" filterBy="#{vendor.venderMobile}"
+					style="text-align:center">
+					<h:outputText value="#{vendor.venderMobile}" />
+				</p:column>
+				
+				<p:column headerText="Vendor Email" sortBy="#{vendor.venderEmail}" filterBy="#{vendor.venderEmail}"
+					style="text-align:center">
+					<h:outputText value="#{vendor.venderEmail}" />
+				</p:column>
+				
+				
+				<p:column headerText="Vendor Address" sortBy="#{vendor.venderAddress}" filterBy="#{vendor.venderAddress}"
+					style="text-align:center">
+					<h:outputText value="#{vendor.venderAddress}" />
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</ui:composition>

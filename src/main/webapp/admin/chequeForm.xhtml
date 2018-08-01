@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+
+		<p:panelGrid style="width:40%;margin-left:29%;margin-top:10%;">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="6">Create Cheque</p:column>
+				</p:row>
+			</f:facet>
+
+		</p:panelGrid>
+		<br></br>
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<p:row>
+				<p:column>
+					<p:outputLabel for="start-chequeno" value="Starting Cheque Number:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="start-chequeno" converterMessage="Please enter digits only."
+						value="#{adminBean.chequeStartNo}" required="true"
+						requiredMessage="Enter Start Cheque Number" placeholder="Start Cheque Number" />
+						<p:message for="start-chequeno" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="end-chequeno" value="End Cheque Number:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="end-chequeno" converterMessage="Please enter digits only."
+						value="#{adminBean.chequeEndNo}" required="true"
+						requiredMessage="End Cheque Number" placeholder="End Cheque Number" />
+						<p:message for="end-chequeno" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bank-name" value="Bank Name:" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="bank-name" style="width:91%"
+						value="#{adminBean.internalBankId}" validator="#{adminBean.getInternalBank}"
+						required="true" requiredMessage="Select Bank">
+						<f:selectItem itemLabel="Select Bank" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{appDataBean.bankInternalList}" var="b"
+							itemLabel="#{b.bankName}" itemValue="#{b.id}" />
+						<p:ajax event="change" update="account-no" />	
+					</p:selectOneMenu>	
+					<p:message for="bank-name" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="account-no" value="Account Number:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="account-no"
+						value="#{adminBean.internalBank.accountNo}" readonly="true"/>
+						<p:message for="account-no" />
+				</p:column>
+			</p:row>
+			
+		</p:panelGrid>
+		<br />
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<f:facet name="footer">
+				<p:row>
+					<p:column colspan="6" >
+						<div style="text-align:center">
+						<p:commandButton value="Save" onclick="PF('statusDialog').show()"
+							oncomplete="PF('statusDialog').hide()"
+							actionListener="#{adminBean.saveCheque()}" update=":mainBody" />
+						</div>
+					</p:column>
+				</p:row>
+			</f:facet>
+		</p:panelGrid>
+
+	</h:form>
+</ui:composition>

@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+	<p:growl id="growl" showDetail="true" sticky="false" autoUpdate="true" />
+
+	<h:form>
+	
+		<p:panel style="margin-top:1%">
+		
+			<f:facet name="header">Card List</f:facet>
+			
+			<p:dataTable var="card" value="#{adminBean.internalCardList}" paginator="true" rows="20"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				sortBy="#{card.id}" sortOrder="descending" rowKey="#{card.id}"  selectionMode="single" selection="#{adminBean.selectedCard}" rowsPerPageTemplate="20,25,50,100" id="card-table" widgetVar="cardTable">
+				
+				<f:facet name="header">Cards</f:facet>
+				
+				<p:ajax event="rowDblselect" listener="#{adminBean.onRowSelectCardList}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+
+				<p:column headerText="Id" sortBy="#{card.id}" filterBy="#{card.id}" style="text-align:center">
+					<h:outputText value="#{card.id}" />
+				</p:column>
+				
+				<p:column headerText="Bank Name" sortBy="#{card.bankInternal.bankName}" filterBy="#{card.bankInternal.bankName}"
+					style="text-align:center">
+					<h:outputText value="#{card.bankInternal.bankName}" />
+				</p:column>
+
+				<p:column headerText="Account No" sortBy="#{card.bankInternal.accountNo}" filterBy="#{card.bankInternal.accountNo}" style="text-align:center">
+					<h:outputText value="#{card.bankInternal.accountNo}" />
+				</p:column>
+
+				<p:column headerText="Card No" sortBy="#{card.cardNo}" filterBy="#{card.cardNo}"
+					style="text-align:center">
+					<h:outputText value="#{card.cardNo}" />
+				</p:column>
+				
+				<p:column headerText="Card Holder Name" sortBy="#{card.cardHolderName}" filterBy="#{card.cardHolderName}"
+					style="text-align:center">
+					<h:outputText value="#{card.cardHolderName}" />
+				</p:column>
+				
+				<p:column headerText="Card Type" sortBy="#{card.cardType}" filterBy="#{card.cardType}"
+					style="text-align:center">
+					<h:outputText value="#{card.cardType}" />
+				</p:column>
+				
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</ui:composition>

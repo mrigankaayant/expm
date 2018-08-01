@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/account/accountTemplate.xhtml">
+	<ui:define name="content">
+		<h:panelGroup id="mainBody">
+			<c:choose>
+				
+				<c:when test="#{accountBean.action == 'ACCOUNTLIST'}">
+					<ui:include src="/account/listAccount.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'VENDORFORM'}">
+					<ui:include src="/account/vendorForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'VENDORDETAILS'}">
+					<ui:include src="/account/vendorDetails.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'VENDORLIST'}">
+					<ui:include src="/account/listVendor.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'BANKLIST'}">
+					<ui:include src="/account/listBank.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'BANKFORM'}">
+					<ui:include src="/account/bankForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'EXPENSEFORM'}">
+					<ui:include src="/account/expenseForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'EXPENSELIST'}">
+					<ui:include src="/account/listExpense.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'EXPENSEDETAILS'}">
+					<ui:include src="/account/expenseDetails.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'CHEQUEFORM'}">
+					<ui:include src="/account/chequeForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'CHEQUELIST'}">
+					<ui:include src="/account/listCheque.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'INTERNALBANKFORM'}">
+					<ui:include src="/account/internalBankForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'INTERNALBANKLIST'}">
+					<ui:include src="/account/internalBankList.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'INTERNALCARDFORM'}">
+					<ui:include src="/account/internalCardForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'INTERNALCARDLIST'}">
+					<ui:include src="/account/internalCardList.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'CASHBOOKFORM'}">
+					<ui:include src="/account/cashBookForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'CASHBOOKLIST'}">
+					<ui:include src="/account/cashBookList.xhtml" />
+				</c:when>
+				
+				
+				<c:when test="#{accountBean.action == 'REPORTFORM'}">
+					<ui:include src="/account/reportForm.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'CASHDETAILSREPORT'}">
+					<ui:include src="/account/cashDetailsReport.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'CARDDETAILSREPORT'}">
+					<ui:include src="/account/cardDetailsReport.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'NEFTDETAILSREPORT'}">
+					<ui:include src="/account/neftDetailsReport.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'CHEQUEDETAILSREPORT'}">
+					<ui:include src="/account/chequeDetailsReport.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'EXPENSEREPORT'}">
+					<ui:include src="/account/expenseReport.xhtml" />
+				</c:when>
+				
+				<c:when test="#{accountBean.action == 'EXPENSEDETAILSREPORTWITHDATERANGE'}">
+					<ui:include src="/account/expenseDetailsReport.xhtml" />
+				</c:when>
+				
+			</c:choose>
+
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+
+</html>

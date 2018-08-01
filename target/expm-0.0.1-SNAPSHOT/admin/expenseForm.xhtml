@@ -1,0 +1,894 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<h:form id="expenseForm" enctype="multipart/form-data">
+
+		<p:panel style="margin-top:1%">
+
+			<f:facet name="header">Create Expense</f:facet>
+
+			<div class="ui-g">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<h:panelGrid style="width:100%"
+						rendered="#{!not empty adminBean.expense.expenseId}">
+						<p:outputLabel for="account-name" value="Account Name:" />
+						<p:selectOneMenu id="account-name"
+							disabled="#{adminBean.expense.expenseId gt '0'}"
+							value="#{adminBean.expense.account.accountId}" required="true"
+							requiredMessage="Select Account">
+							<f:selectItem itemLabel="Select Account" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{appDataBean.accountList}" var="acc"
+								itemLabel="#{acc.accountName}" itemValue="#{acc.accountId}" />
+						</p:selectOneMenu>
+						<p:message for="account-name" />
+					</h:panelGrid>
+
+
+					<h:panelGrid style="width:100%"
+						rendered="#{not empty adminBean.expense.expenseId}">
+						<p:outputLabel for="account-name-readonly" value="Account Name:" />
+						<p:inputText value="#{adminBean.expense.account.accountName}"
+							id="account-name-readonly"
+							readonly="#{adminBean.expense.expenseId gt '0'}" />
+					</h:panelGrid>
+
+				</div>
+
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<h:panelGrid style="width:100%"
+						rendered="#{!not empty adminBean.expense.expenseId}">
+						<p:outputLabel for="vendor-name" value="Vendor Name:" />
+						<p:selectOneMenu id="vendor-name"
+							disabled="#{adminBean.expense.expenseId gt '0'}"
+							value="#{adminBean.expense.vendor.venderId}" required="true"
+							requiredMessage="Select Vendor">
+							<f:selectItem itemLabel="Select Vendor" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{appDataBean.vendorList}" var="v"
+								itemLabel="#{v.venderName}" itemValue="#{v.venderId}" />
+						</p:selectOneMenu>
+						<p:message for="vendor-name" />
+					</h:panelGrid>
+
+					<h:panelGrid style="width:100%"
+						rendered="#{not empty adminBean.expense.expenseId}">
+						<p:outputLabel for="vendor-name-readonly" value="Vendor Name:" />
+						<p:inputText value="#{adminBean.expense.vendor.venderName}"
+							id="vendor-name-readonly"
+							readonly="#{adminBean.expense.expenseId gt '0'}" />
+					</h:panelGrid>
+
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="invoice-no" value="Invoice Number:" />
+						<p:inputText value="#{adminBean.expense.invoiceNo}"
+							required="true" id="invoice-no"
+							requiredMessage="Enter Invoice Number"
+							placeholder="Invoice Number"
+							readonly="#{adminBean.expense.expenseId gt '0'}" />
+						<p:message for="invoice-no" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-3">
+					<h:panelGrid style="width:100%"
+						rendered="#{!not empty adminBean.expense.expenseId}">
+						<p:outputLabel for="invoice-date"
+							value="Invoice Date (DD/MM/YYYY):" />
+						<p:calendar value="#{adminBean.expense.invoiceDate}"
+							required="true" id="invoice-date"
+							requiredMessage="Enter Invoice Date" pattern="dd-MMMM-yyyy" placeholder="Invoice Date" />
+						<p:message for="invoice-date" />
+					</h:panelGrid>
+
+
+					<h:panelGrid style="width:100%"
+						rendered="#{not empty adminBean.expense.expenseId}">
+						<p:outputLabel for="invoice-date-readonly" value="Invoice Date:" />
+						<p:inputText value="#{adminBean.expense.invoiceDate}"
+							id="invoice-date-readonly"
+							readonly="#{adminBean.expense.expenseId gt '0'}" />
+					</h:panelGrid>
+
+				</div>
+
+			</div>
+
+			<div class="ui-g">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="description" value="Description:" />
+						<p:inputTextarea id="description"
+							readonly="#{adminBean.expense.expenseId gt '0'}"
+							value="#{adminBean.expense.description}" rows="20"
+							required="true" requiredMessage="Enter Description"
+							placeholder="Description....................." />
+						<p:message for="description" />
+					</h:panelGrid>
+				</div>
+
+
+
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<div style="margin-top: 4%;">
+						<div style="margin-left: 30%;">
+							<h:panelGrid columns="2">
+
+								<p:outputLabel for="total-amount" value="Total Amount:" />
+
+								<p:inputText value="#{adminBean.expense.totalAmount}" converterMessage="Please Enter Number Only"
+									readonly="#{adminBean.expense.expenseId gt '0'}"
+									required="true" id="total-amount" style="margin-left:6%;"
+									validator="#{adminBean.getTotalAmount}" size="22"
+									requiredMessage="Enter Total Amount" placeholder="Total Amount">
+									<p:ajax event="blur" update="totalAmoutPanel,netAmoutPanel" />
+								</p:inputText>
+
+								<p:message for="total-amount" />
+							</h:panelGrid>
+
+							<h:panelGrid columns="4">
+								<p:selectBooleanCheckbox value="#{adminBean.serviceTaxCheck}"
+									disabled="#{adminBean.expense.expenseId gt '0'}">
+									<p:ajax
+										update="service-tax-inPercentage,service-tax-inamount,totalAmoutPanel,netAmoutPanel"
+										listener="#{adminBean.enableServiceTax}" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="Service Tax:" />
+
+								<p:inputNumber style="margin-left:18%;" size="4" symbol="%"
+									symbolPosition="s" emptyValue="sign"
+									readonly="#{adminBean.expense.expenseId gt '0'}"
+									validator="#{adminBean.calculateAmountOfServiceTax}"
+									value="#{adminBean.serviceTaxInPercentage}" required="true"
+									disabled="#{adminBean.enablefield}"
+									id="service-tax-inPercentage"
+									requiredMessage="Enter Service Tax" placeholder="%">
+									<p:ajax
+										update="service-tax-inamount,totalAmoutPanel,netAmoutPanel"
+										event="blur" />
+								</p:inputNumber>
+
+
+
+								<p:inputText style="margin-left:13%;" size="13"
+									readonly="#{adminBean.expense.expenseId gt '0'}"
+									value="#{adminBean.calculatedTotalServiceTax}"
+									required="true" disabled="#{adminBean.enablefield}"
+									title="Total Amount X Service Tax%" id="service-tax-inamount"
+									requiredMessage="Enter Service Tax" placeholder="Service Tax">
+									<p:tooltip for="service-tax-inamount" showEvent="keyup" />
+								</p:inputText>
+								<p:message for="service-tax-inamount" />
+							</h:panelGrid>
+						</div>
+
+
+						<p:panel
+							style="margin-top:1%;margin-left:28%;margin-right:24%;text-align:center;border: none;"
+							id="totalAmoutPanel">
+							<hr></hr>
+							<h:outputText
+								value="Total Amount + Service Tax:     #{adminBean.calculatedTotalAmount}"
+								style="font-weight: bold;color:Teal" />
+							<hr></hr>
+						</p:panel>
+
+
+
+						<div style="margin-left: 30%;">
+							<h:panelGrid columns="4">
+								<p:selectBooleanCheckbox value="#{adminBean.TDSCheck}"
+									disabled="#{adminBean.expense.expenseId gt '0'}">
+									<p:ajax update="tds-inpercentage,tds-inamount,netAmoutPanel"
+										listener="#{adminBean.enableTDSTax}" />
+								</p:selectBooleanCheckbox>
+
+								<p:outputLabel value="TDS Tax:" />
+
+								<p:inputNumber style="margin-left:18%;" size="4"
+									readonly="#{adminBean.expense.expenseId gt '0'}"
+									validator="#{adminBean.calculateAmountOfTDS}" symbol="%"
+									symbolPosition="s" emptyValue="sign" id="tds-inpercentage"
+									value="#{adminBean.TDSInPercentage}" required="true"
+									disabled="#{adminBean.enableTDSField}"
+									requiredMessage="Enter TDS Amount" placeholder="%">
+
+									<p:ajax update="tds-inamount,netAmoutPanel" event="blur" />
+								</p:inputNumber>
+
+
+								<p:inputText style="margin-left:13%;" size="15"
+									readonly="#{adminBean.expense.expenseId gt '0'}"
+									id="tds-inamount" value="#{adminBean.calculatedTDSAmount}"
+									required="true" disabled="#{adminBean.enableTDSField}"
+									title="Total Amount X TDS%" requiredMessage="Enter TDS Amount"
+									placeholder="TDS Amount">
+									<p:tooltip for="tds-inamount" showEvent="keyup" />
+								</p:inputText>
+								<p:message for="tds-inamount" />
+
+							</h:panelGrid>
+						</div>
+
+
+
+						<p:panel
+							style="margin-top:1%;margin-left:28%;margin-right:24%;text-align:center;border: none;"
+							id="netAmoutPanel">
+							<hr></hr>
+							<h:outputText id="netAmount"
+								value="Net Amount:     #{adminBean.netAmount}"
+								style="font-weight: bold;color:Teal" />
+							<p:tooltip for="netAmount"
+								value="(Total Amount X Service Tax%)-TDS" position="right" />
+							<hr></hr>
+						</p:panel>
+
+
+					</div>
+
+					<hr></hr>
+
+					<div>
+						<h:panelGrid columns="2" style="margin-left:32%;"
+							rendered="#{!not empty adminBean.expense.expenseId}">
+							<p:outputLabel for="expense-type" value="Expense Type:" />
+							<p:selectOneMenu id="expense-type"
+								disabled="#{adminBean.expense.expenseId gt '0'}"
+								value="#{adminBean.expense.expenseType}" required="true"
+								requiredMessage="Select Expense Type">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="INCURRED" itemLabel="Incurred" />
+								<f:selectItem itemValue="ACCRUED" itemLabel="Accrued" />
+							</p:selectOneMenu>
+							<p:message for="expense-type" />
+						</h:panelGrid>
+
+
+						<h:panelGrid columns="2" style="margin-left:32%;"
+							rendered="#{not empty adminBean.expense.expenseId}">
+							<p:outputLabel for="expense-type-readonly" value="Expense Type:" />
+							<p:inputText value="#{adminBean.expense.expenseType}"
+								id="expense-type-readonly"
+								readonly="#{adminBean.expense.expenseId gt '0'}" />
+						</h:panelGrid>
+
+					</div>
+					<br></br>
+					<div>
+						<h:panelGrid columns="2" style="margin-left:27.5%;">
+							<p:outputLabel value="Documents:" />
+							<p:fileUpload disabled="#{adminBean.expense.expenseId gt '0'}"
+								fileUploadListener="#{adminBean.expenseFileUpload}"
+								update="file" mode="advanced" multiple="true" />
+						</h:panelGrid>
+					</div>
+
+
+					<div>
+						<h:panelGrid id="file" columns="2" cellpadding="0" cellspacing="2"
+							style="margin-left:27.5%;">
+							<p:outputLabel value=" Uploaded Documents:"
+								rendered="#{adminBean.expenseFileName.size() > '0'}" />
+							<br></br>
+							<c:forEach items="${adminBean.expenseFileName}" var="doc">
+								<p:outputLabel style="font-weight: bold;color:Teal"
+									value="#{doc}" />
+								<p:commandLink actionListener="#{adminBean.expenseFileDelete}"
+									update="file" style="font-weight: bold;color:red"
+									value="delete">
+									<f:param name="deletefile" value="#{doc}" />
+								</p:commandLink>
+							</c:forEach>
+						</h:panelGrid>
+					</div>
+
+
+				</div>
+			</div>
+
+			<f:facet name="footer">
+				<div style="text-align: center">
+
+					<p:commandButton value="Save"
+						rendered="#{!adminBean.paymentButtonShow}"
+						disabled="#{not empty adminBean.expense.expenseId}"
+						actionListener="#{adminBean.saveExpense()}"
+						onclick="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()" update=":expenseForm" />
+
+
+					<p:commandButton value="Payment"
+						rendered="#{adminBean.paymentButtonShow}"
+						actionListener="#{adminBean.showPaymentForm()}"
+						update=":payment-form" immediate="true"
+						oncomplete="PF('addPaymentDlg').show();" />
+
+				</div>
+			</f:facet>
+		</p:panel>
+
+	</h:form>
+
+
+
+	<h:form id="payment-form" enctype="multipart/form-data">
+		<p:dialog header="Add Payment" id="dialog" widgetVar="addPaymentDlg"
+			modal="true" showEffect="explode" hideEffect="fade" width="900"
+			height="500" responsive="true">
+
+
+			<p:panel style="margin-top:1%" id="payment-panelId">
+
+				<f:facet name="header">Make Payment</f:facet>
+
+				<div class="ui-g">
+
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%"
+							rendered="#{!adminBean.expense.expenseType eq 'INCURRED'}">
+							<p:outputLabel for="mode-Of-Payment" value="Mode Of Payment:" />
+
+							<p:selectOneMenu id="mode-Of-Payment" style="width:94%!important"
+								value="#{adminBean.paymentDetail.modeOfPayment}"
+								validator="#{adminBean.checkModeOfPayment}" required="true"
+								requiredMessage="Select Mode Of Payment">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="CASH" itemLabel="CASH" />
+								<f:selectItem itemValue="CHEQUE" itemLabel="CHEQUE" />
+								<f:selectItem itemValue="CARD" itemLabel="CARD" />
+								<f:selectItem itemValue="NEFT" itemLabel="NEFT" />
+								<p:ajax update="payment-panelId" event="change" />
+							</p:selectOneMenu>
+
+							<p:message for="mode-Of-Payment" />
+						</h:panelGrid>
+
+
+						<h:panelGrid style="width:100%"
+							rendered="#{adminBean.expense.expenseType eq 'INCURRED'}">
+							<p:outputLabel for="mode-Of-Payment-incurred"
+								value="Mode Of Payment:" />
+							<p:selectOneMenu id="mode-Of-Payment-incurred"
+								style="width:94%!important"
+								value="#{adminBean.paymentDetail.modeOfPayment}"
+								validator="#{adminBean.checkModeOfPayment}" required="true"
+								requiredMessage="Select Mode Of Payment">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="CASH" itemLabel="CASH" />
+								<f:selectItem itemValue="CARD" itemLabel="CARD" />
+								<p:ajax update="payment-panelId" event="change" />
+							</p:selectOneMenu>
+
+							<p:message for="mode-Of-Payment-incurred" />
+						</h:panelGrid>
+
+					</div>
+				</div>
+
+
+				<p:outputPanel
+					rendered="#{adminBean.paymentDetail.modeOfPayment eq 'CARD'}">
+					<div class="ui-g">
+						<div class="ui-g-12 ui-md-12 ui-lg-12">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="bank-name" value="Bank:" />
+
+								<p:selectOneMenu id="bank-name" value="#{adminBean.bankId}"
+									required="true" requiredMessage="Select Bank"
+									validator="#{adminBean.getBankNameForPayment}"
+									style="width:94%!important">
+									<f:selectItem itemLabel="Select Bank" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{appDataBean.bankInternalList}" var="b"
+										itemLabel="#{b.bankName} - #{b.accountNo}" itemValue="#{b.id}" />
+									<p:ajax event="change" update="payment-panelId" />
+								</p:selectOneMenu>
+								<p:message for="bank-name" />
+							</h:panelGrid>
+						</div>
+					</div>
+				</p:outputPanel>
+
+
+				<p:panel id="cardBook-panel"
+					rendered="#{adminBean.cardDetailsPanelShow}">
+					<div class="ui-g">
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-no" value="Card Number:" />
+								<p:selectOneMenu id="card-no" value="#{adminBean.cardId}"
+									required="true" requiredMessage="Select Card Number"
+									validator="#{adminBean.getCardNumberForPayment}">
+									<f:selectItem itemLabel="Select Card" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{adminBean.cards}" var="c"
+										itemLabel="#{c.cardNo}" itemValue="#{c.id}" />
+									<p:ajax event="change" update="payment-panelId" />
+								</p:selectOneMenu>
+								<p:message for="card-no" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="account-no" value="Account Number:" />
+								<p:inputText id="account-no"
+									value="#{adminBean.bankInternalCard.bankInternal.accountNo}"
+									readonly="true" />
+								<p:message for="account-no" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-holder-name" value="Card Holder name:" />
+								<p:inputText id="card-holder-name"
+									value="#{adminBean.bankInternalCard.cardHolderName}"
+									readonly="true" />
+								<p:message for="card-holder-name" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-type" value="Card Type:" />
+								<p:inputText id="card-type"
+									value="#{adminBean.bankInternalCard.cardType}"
+									readonly="true" />
+								<p:message for="card-type" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-swiprd-by" value="Card Swiped By:" />
+								<p:selectOneMenu id="card-swiprd-by"
+									value="#{adminBean.cardBook.cardSwipedBy}" required="true"
+									requiredMessage="Select Card Swiped By">
+									<f:selectItem itemLabel="---Select---" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{appDataBean.userList}" var="u"
+										itemLabel="#{u.name}" itemValue="#{u.name}" />
+								</p:selectOneMenu>	
+								<p:message for="card-swiprd-by" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="card-swiprd-date"
+									value="Card Swiped Date (DD/MM/YYYY):" />
+								<p:calendar id="card-swiprd-date" pattern="dd-MMMM-yyyy"
+									value="#{adminBean.cardBook.cardSwipedDate}" required="true"
+									requiredMessage="Enter Card Swiped Date"
+									placeholder="Card Swiped Date" />
+								<p:message for="card-swiprd-date" />
+							</h:panelGrid>
+						</div>
+					</div>
+				</p:panel>
+
+
+
+
+				<p:panel id="neftBook-panel"
+					rendered="#{adminBean.neftDetailsPanelShow}">
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-name" value="Payee Name:" />
+								<p:inputText id="payee-name"
+									value="#{adminBean.neftBook.payeeName}" required="true"
+									requiredMessage="Enter Payee Name" placeholder="Payee Name" />
+								<p:message for="payee-name" />
+							</h:panelGrid>
+						</div>
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-bank-name" value="Payee Bank Name:" />
+								<p:inputText id="payee-bank-name"
+									value="#{adminBean.neftBook.payeeBankName}" required="true"
+									requiredMessage="Enter Payee Bank Name"
+									placeholder="Payee Bank Name" />
+								<p:message for="payee-bank-name" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-4">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-bank-ifsc" value="Payee Bank IFSC:" />
+								<p:inputText id="payee-bank-ifsc"
+									value="#{adminBean.neftBook.payeeBankIfsc}" required="true"
+									requiredMessage="Enter Payee Bank IFSC"
+									placeholder="Payee Bank IFSC" />
+								<p:message for="payee-bank-ifsc" />
+							</h:panelGrid>
+						</div>
+					</div>
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payee-bank-branch"
+									value="Payee Bank Branch:" />
+								<p:inputText id="payee-bank-branch"
+									value="#{adminBean.neftBook.payeeBankBranch}" required="true"
+									requiredMessage="Enter Payee Bank Branch"
+									placeholder="Payee Bank Branch" />
+								<p:message for="payee-bank-branch" />
+							</h:panelGrid>
+						</div>
+
+
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="neft-date" value="NEFT Date (DD/MM/YYYY):" />
+								<p:calendar id="neft-date" pattern="dd-MMMM-yyyy"
+									value="#{adminBean.neftBook.neftDate}" required="true"
+									requiredMessage="Enter NEFT Date" placeholder="NEFT Date" />
+								<p:message for="neft-date" />
+							</h:panelGrid>
+						</div>
+					</div>
+
+				</p:panel>
+
+				<p:panel id="chequeBook-panel"
+					rendered="#{adminBean.chequeDetailsPanelShow}">
+
+
+					<div class="ui-g">
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="cheque-no" value="Cheque No.:" />
+								<p:inputText id="cheque-no"
+									value="#{adminBean.chequeBook.chequeNo}" required="true"
+									requiredMessage="Enter Cheque No." placeholder="Cheque No." />
+								<p:message for="cheque-no" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="cheque-payee-name" value="Payee Name:" />
+								<p:inputText id="cheque-payee-name"
+									value="#{adminBean.chequeBook.payeeName}" required="true"
+									requiredMessage="Enter Payee Name" placeholder="Payee Name" />
+								<p:message for="cheque-payee-name" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payable-account" value="Payable Account:" />
+								<p:selectOneMenu id="payable-account"
+									style="width:94%!important"
+									value="#{adminBean.chequeBook.isAccountPayable}"
+									required="true" requiredMessage="Select Payable Account">
+									<f:selectItem itemLabel="---Select---" itemValue="" />
+									<f:selectItem itemValue="true" itemLabel="YES" />
+									<f:selectItem itemValue="false" itemLabel="NO" />
+								</p:selectOneMenu>
+								<p:message for="payable-account" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-6 ui-md-6 ui-lg-6">
+							<h:panelGrid style="width:100%">
+								<p:outputLabel for="payable-date"
+									value="Payable Date (DD/MM/YYYY):" />
+								<p:calendar id="payable-date" pattern="dd-MMMM-yyyy"
+									value="#{adminBean.chequeBook.payableDate}" required="true"
+									requiredMessage="Enter Payable Date" placeholder="Payable Date" />
+								<p:message for="payable-date" />
+							</h:panelGrid>
+						</div>
+					</div>
+
+				</p:panel>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="amount" value="Amount:" />
+							<p:inputText id="amount" validator="#{adminBean.checkPaidAmount}" converterMessage="Please Enter Number Only"
+								value="#{adminBean.paymentDetail.amount}" required="true"
+								requiredMessage="Enter amount" placeholder="Enter Amount" >
+								<p:ajax update="amount-msg" event="change"  /> 
+								</p:inputText>
+							<p:message for="amount" id="amount-msg"/>
+						</h:panelGrid>
+					</div>
+				</div>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="payment-desc" value="Payment Description:" />
+							<p:inputTextarea id="payment-desc"
+								value="#{adminBean.paymentDetail.description}" required="true"
+								rows="5" cols="30" requiredMessage="Enter Payment Description"
+								placeholder="Payment Description" autoResize="false" />
+
+							<p:message for="payment-desc" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel value="Documents:" />
+							<p:fileUpload
+								fileUploadListener="#{adminBean.paymentFileUpload}"
+								mode="advanced" multiple="true" update="payDoc" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:27.5%;%" columns="2" cellpadding="0"
+							cellspacing="2" id="payDoc">
+							<p:outputLabel value=" Uploaded Documents:"
+								rendered="#{adminBean.paymentFileName.size() > '0'}" />
+							<br></br>
+							<c:forEach items="${adminBean.paymentFileName}" var="doc">
+
+								<p:outputLabel style="font-weight: bold;color:Teal"
+									value="#{doc}" />
+								<p:commandLink actionListener="#{adminBean.paymentFileDelete}"
+									update="payDoc" style="font-weight: bold;color:red"
+									value="delete">
+									<f:param name="deletefile" value="#{doc}" />
+								</p:commandLink>
+							</c:forEach>
+						</h:panelGrid>
+
+					</div>
+				</div>
+
+				<f:facet name="footer">
+					<div style="text-align: center">
+						<p:commandButton value="Save"
+							oncomplete="handleLoginRequest(xhr, status, args)"
+							actionListener="#{adminBean.savePayment()}"
+							update="payment-panelId,:expenseForm,:paymentList-form" />
+					</div>
+				</f:facet>
+
+			</p:panel>
+
+		</p:dialog>
+	</h:form>
+
+
+	<h:form id="paymentList-form">
+		<c:forEach items="${adminBean.paymentDetailsList}" var="p">
+			<p:panel header="Payment Details" style="margin-top:1%;"
+				id="paymentList-panel"
+				rendered="#{not empty adminBean.paymentDetailsList}" styleClass="customTitleBar">
+
+				<p:panel style="margin-top:1%;border:none;">
+
+					<div class="ui-g"
+						style="margin-left: 10%; margin-right: 10%; border: none;">
+
+						<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Payment Id :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.paymentId}" />
+							</h:panelGrid>
+						</div>
+
+						<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Mode Of Payment :"
+									style="font-weight: bold;" />
+								<p:outputLabel value="#{p.modeOfPayment}" />
+							</h:panelGrid>
+						</div>
+
+
+						<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Amount :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.amount}" />
+							</h:panelGrid>
+						</div>
+
+
+						<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Entry Date :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.entryDate}" />
+							</h:panelGrid>
+						</div>
+
+
+
+						<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Enrty By :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.userByEnrtyBy.username}" />
+							</h:panelGrid>
+						</div>
+
+
+						<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<p:outputLabel value="Description :" style="font-weight: bold;" />
+								<p:outputLabel value="#{p.description}" />
+							</h:panelGrid>
+						</div>
+					</div>
+					
+					
+					<c:forEach items="${p.cardBooks}" var="c">
+						<p:panel header="Card Details" style="border:none;text-align:center;" styleClass="customTitleBarForCardTxnPanel">
+
+							<div class="ui-g"
+								style="margin-left: 10%; margin-right: 10%; border: none;">
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Id :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.txnId}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Swipe Date :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.cardSwipedDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Swipe By :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.cardSwipedBy}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Transaction Amount :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.amount}" />
+									</h:panelGrid>
+								</div>
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Entry Date :" style="font-weight: bold;" />
+										<p:outputLabel value="#{c.entryDate}" />
+									</h:panelGrid>
+								</div>
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Description :"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.description}" />
+									</h:panelGrid>
+								</div>
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Bank Name:"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.bankInternalCard.bankInternal.bankName}" />
+									</h:panelGrid>
+								</div>
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Account No:"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.bankInternalCard.bankInternal.accountNo}" />
+									</h:panelGrid>
+								</div>
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card No:"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.bankInternalCard.cardNo}" />
+									</h:panelGrid>
+								</div>
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Holder Name:"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.bankInternalCard.cardHolderName}" />
+									</h:panelGrid>
+								</div>
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Card Type:"
+											style="font-weight: bold;" />
+										<p:outputLabel value="#{c.bankInternalCard.cardType}" />
+									</h:panelGrid>
+								</div>
+
+							</div>
+
+						</p:panel>
+					</c:forEach>
+				</p:panel>
+
+
+
+				<p:panel style="border:none"
+					rendered="#{not empty p.paymentsDocumentses}">
+					<div class="ui-g"
+						style="margin-left: 9%; margin-right: 10%; margin-top: 1%; border: none;">
+
+						<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+							<h:panelGrid style="border: none;" columns="1">
+								<p:outputLabel
+									style="font-weight: bold;font-size:18px;color:Teal"
+									value="Documents :- " />
+							</h:panelGrid>
+						</div>
+						<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+							<h:panelGrid style="border: none;" columns="2">
+								<c:forEach items="${p.paymentsDocumentses}" var="paymentDoc">
+									<p:outputLabel style="font-size:16px" value="File Name : " />
+									<h:commandLink action="#{adminBean.openFile()}"
+										value="#{paymentDoc.fileName}" target="_blank"
+										immediate="true">
+										<f:param name="filePath" value="#{paymentDoc.filePath}" />
+										<f:param name="filename" value="#{paymentDoc.fileName}" />
+										<f:param name="extension" value="#{paymentDoc.extension}" />
+									</h:commandLink>
+								</c:forEach>
+							</h:panelGrid>
+						</div>
+
+					</div>
+				</p:panel>
+
+			</p:panel>
+		</c:forEach>
+
+	</h:form>
+
+
+	<script type="text/javascript">
+    function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed) {
+            PF('addPaymentDlg').jq.effect("shake", {times:10}, 100);
+        }
+        else {
+            PF('addPaymentDlg').hide();
+        }
+    }
+</script>
+
+
+</ui:composition>

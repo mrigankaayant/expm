@@ -1,0 +1,345 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<h:form id="vendor-form" enctype="multipart/form-data">
+		<p:panel style="margin-top:1%">
+			<f:facet name="header">Create Vendor</f:facet>
+
+			<div class="ui-g">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="vendor-name" value="Vendor Name:" />
+						<p:inputText id="vendor-name"
+							value="#{accountBean.vendor.venderName}" required="true"
+							requiredMessage="Enter Vendor Name" placeholder="Vendor Name" />
+						<p:message for="vendor-name" />
+					</h:panelGrid>
+				
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="vendor-mobile" value="Vendor Mobile:" />
+						<p:inputText id="vendor-mobile"
+							value="#{accountBean.vendor.venderMobile}" required="true"
+							requiredMessage="Enter Vendor Mobile" placeholder="Vendor Mobile" validatorMessage="Please Enter Only Ten Digits" >
+							<f:validateRegex pattern="[0-9]*" />
+							 <f:validateLength minimum="10" maximum="10" />
+							</p:inputText>
+						<p:message for="vendor-mobile" />
+					</h:panelGrid>
+					
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="vendor-email" value="Vendor Email:" />
+						<p:inputText id="vendor-email"
+							value="#{accountBean.vendor.venderEmail}"
+							placeholder="Vendor Email" validatorMessage="Please Enter Valid Email" >
+							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							</p:inputText>
+						<p:message for="vendor-email" />
+					</h:panelGrid>
+					
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="vendor-pan" value="Vendor Pan No.:" />
+						<p:inputText id="vendor-pan" value="#{accountBean.vendor.venderPan}"
+							placeholder="Vendor Pan" />
+						<p:message for="vendor-pan" />
+					</h:panelGrid>
+					
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="vendor-vat" value="Vat:" />
+						<p:inputText id="vendor-vat" value="#{accountBean.vendor.vat}"
+							placeholder="Vat" converterMessage="Please Enter Number Only" />
+						<p:message for="vendor-vat" />
+					</h:panelGrid>
+					
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="vendor-serviceTax" value="Service Tax:" />
+						<p:inputText id="vendor-serviceTax" value="#{accountBean.vendor.serviceTax}"
+							placeholder="Service Tax" converterMessage="Please Enter Number Only" />
+						<p:message for="vendor-serviceTax" />
+					</h:panelGrid>
+					
+				</div>
+			
+				<div class="ui-g-12 ui-md-6 ui-lg-6">
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="vendor-address" value="Vendor Address:" />
+						<p:inputTextarea id="vendor-address"
+							value="#{accountBean.vendor.venderAddress}" required="true"
+							rows="5" cols="30" requiredMessage="Enter Vendor Address"
+							placeholder="Vendor Address" autoResize="false" />
+						<p:message for="vendor-address" />
+					</h:panelGrid>
+					
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="remarks" value="Remarks:" />
+						<p:inputTextarea id="remarks"
+							value="#{accountBean.vendor.remarks}" rows="5" cols="30"
+							placeholder="Remarks" autoResize="false" />
+					</h:panelGrid>
+					
+					<h:panelGrid style="width:100%">
+						<p:outputLabel for="documents" value="Documents:" />
+						<p:fileUpload id="documents" update="file" fileUploadListener="#{accountBean.vendorFileUpload}" mode="advanced" multiple="true" />	
+					</h:panelGrid>
+					
+					<h:panelGrid style="width:27.5%;%" columns="2" cellpadding="0" cellspacing="2" id="file">
+						<p:outputLabel value=" Uploaded Documents:"  rendered="#{accountBean.vendorFileNames.size() > '0'}"/>
+						<br></br>
+						<c:forEach items="${accountBean.vendorFileNames}" var="doc">
+						
+						<p:outputLabel style="font-weight: bold;color:Teal"  value="#{doc}" />
+							<p:commandLink actionListener="#{accountBean.vendorFileDelete}" update=":vendor-form,file" style="font-weight: bold;color:red"  value="delete">
+									 <f:param name="deletefile" value="#{doc}" />
+								</p:commandLink>
+						</c:forEach>
+					</h:panelGrid>
+
+					
+				</div>
+
+			</div>
+			<f:facet name="footer">
+				<div style="text-align:center;">
+				<p:commandButton value="Save" action="#{accountBean.saveVendor()}"
+					rendered="#{!not empty accountBean.vendor.venderId}"
+					onclick="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":vendor-form" />
+				</div>
+
+				<p:commandButton value="Vendor's Bank"
+					rendered="#{not empty accountBean.vendor.venderId}"
+					action="#{accountBean.addBank()}" update=":bank-form"
+					immediate="true" oncomplete="PF('addBankDlg').show();" />
+			</f:facet>
+		</p:panel>
+
+
+		<p:panel style="margin-top:1%;" id="bankList-panel"
+			rendered="#{accountBean.bankListPanel}">
+
+			<c:forEach items="${accountBean.banks}" var="b">
+				<p:panel style="margin-top:1%;" >
+					<f:facet name="header">#{b.bankName} Details</f:facet>
+					<div class="ui-g"
+								style="margin-left: 10%; margin-right: 10%; border: none;">
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Bank Name :" style="font-weight: bold;" />
+										<p:outputLabel value="#{b.bankName}" />
+									</h:panelGrid>
+								</div>
+
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Branch Name :" style="font-weight: bold;" />
+										<p:outputLabel value="#{b.bankBranch}" />
+									</h:panelGrid>
+								</div>
+
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Bank Ifsc :" style="font-weight: bold;" />
+										<p:outputLabel value="#{b.bankIfsc}" />
+									</h:panelGrid>
+								</div>
+						
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Bank Id :" style="font-weight: bold;" />
+										<p:outputLabel value="#{b.bankId}" />
+									</h:panelGrid>
+								</div>
+
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Bank Account Number :" style="font-weight: bold;" />
+										<p:outputLabel value="#{b.bankAccountNo}" />
+									</h:panelGrid>
+								</div>
+
+
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Bank Account Type :" style="font-weight: bold;" />
+										<p:outputLabel value="#{b.bankAccountType}" />
+									</h:panelGrid>
+								</div>
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Payee Name :" style="font-weight: bold;" />
+										<p:outputLabel value="#{b.payeeName}" />
+									</h:panelGrid>
+								</div>
+								
+								
+								<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+									<h:panelGrid style="border: none;" columns="2">
+										<p:outputLabel value="Primary Account :" style="font-weight: bold;" />
+										<c:if test="${b.primaryAccount eq 'true'}">
+										<h:outputText value = "Yes" />
+										</c:if>
+										<c:if test="${b.primaryAccount ne 'true'}">
+										<h:outputText value = "No" />
+										</c:if>
+									</h:panelGrid>
+								</div>
+							</div>
+
+					
+				</p:panel>
+				
+			</c:forEach>
+		</p:panel>
+		
+	</h:form>
+
+	<h:form id="bank-form">
+		<p:dialog header="Add Bank" id="dialog" widgetVar="addBankDlg"
+			modal="true" showEffect="explode" hideEffect="fade" width="800">
+
+
+			<p:panel style="margin-top:1%" id="bank-panelId">
+
+				<f:facet name="header">Add Bank</f:facet>
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="bank-name" value="Bank Name:" />
+							<p:inputText id="bank-name" value="#{accountBean.bank.bankName}"
+								required="true" requiredMessage="Enter Bank Name"
+								placeholder="Enter Bank Name" />
+							<p:message for="bank-name" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="bankAccount-no" value="Bank Account No." />
+							<p:inputText id="bankAccount-no"
+								value="#{accountBean.bank.bankAccountNo}" required="true"
+								requiredMessage="Enter Bank Account Number"
+								placeholder="Enter Bank Account Number" />
+							<p:message for="bankAccount-no" />
+						</h:panelGrid>
+					</div>
+				</div>
+				
+				
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="bank-Ifsc" value="Bank Ifsc No." />
+							<p:inputText id="bank-Ifsc"
+								value="#{accountBean.bank.bankIfsc}" required="true"
+								requiredMessage="Enter Bank Account Number"
+								placeholder="Enter Bank Ifsc Number" />
+							<p:message for="bank-Ifsc" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="account-type" value="Bank Account Type:" />
+						    <p:selectOneMenu id="account-type" style="width:94%!important"
+								value="#{accountBean.bank.bankAccountType}" required="true" requiredMessage="Enter Bank Account Type">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="SAVING" itemLabel="Saving" />
+								<f:selectItem  itemValue="CURRENT" itemLabel="Current" />
+							</p:selectOneMenu>		
+							<p:message for="account-type" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="bank-branch" value="Branch Name:" />
+							<p:inputText id="bank-branch"
+								value="#{accountBean.bank.bankBranch}" required="true"
+								requiredMessage="Enter Branch Name"
+								placeholder="Enter Branch Name" />
+							<p:message for="bank-branch" />
+						</h:panelGrid>
+					</div>
+				</div>
+				
+				
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="vendor-payeename" value="Payee Name:" />
+							<p:inputText id="vendor-payeename"
+							value="#{accountBean.bank.payeeName}" required="true"
+							requiredMessage="Enter Payee Name" placeholder="Payee Name" />
+						<p:message for="vendor-payeename" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+				<div class="ui-g">
+					<div class="ui-g-12 ui-md-12 ui-lg-12">
+						<h:panelGrid style="width:100%">
+							<p:outputLabel for="bank-primary" value="Is Primary Account?:" />
+
+							<p:selectOneMenu id="bank-primary" style="width:94%!important" validator="#{accountBean.checkPrimaryAccount}"
+								value="#{accountBean.bank.primaryAccount}" required="true"  requiredMessage="Select Account Type">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="true" itemLabel="YES" />
+								<f:selectItem  itemValue="false" itemLabel="NO" itemDisabled="#{empty accountBean.banks}"/>
+								<p:ajax update="primary-account-msg" event="change" />
+							</p:selectOneMenu>
+							<p:message for="bank-primary" id="primary-account-msg" />
+						</h:panelGrid>
+					</div>
+				</div>
+
+				<f:facet name="footer">
+					<div style="text-align: center">
+						<p:commandButton value="Save"
+							oncomplete="handleLoginRequest(xhr, status, args)"
+							actionListener="#{accountBean.saveBank()}"
+							update="bank-panelId,:vendor-form" />
+
+					</div>
+				</f:facet>
+
+			</p:panel>
+
+		</p:dialog>
+	</h:form>
+
+
+	<script type="text/javascript">
+    function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed) {
+            PF('addBankDlg').jq.effect("shake", {times:10}, 100);
+        }
+        else {
+            PF('addBankDlg').hide();
+        }
+    }
+</script>
+
+
+</ui:composition>

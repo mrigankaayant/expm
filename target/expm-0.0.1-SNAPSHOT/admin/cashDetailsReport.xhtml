@@ -1,0 +1,325 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<h:form>
+
+		<p:panel>
+			<f:facet name="header">Expense Details</f:facet>
+			<div class="ui-g"
+				style="margin-left: 10%; margin-top: 1%; border: none;">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Expense Id :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.expenseId}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Account Name :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.account.accountName}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Name :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.venderName}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Invoice Number :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.invoiceNo}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Invoice Date :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.invoiceDate}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Service Tax :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.serviceTax}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Total Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.totalAmount}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="TDS Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.tdsAmount}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Net Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.netAmount}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Payment Status :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.paymentStatus}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Expense Type :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.expenseType}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Approved Status :" />
+						<c:if
+							test="${adminBean.paymentDetailForReport.expense.isApproved eq 'true'}">
+							<h:outputText value="Approved"
+								style="color:green;font-weight: bold;" />
+						</c:if>
+						<c:if
+							test="${adminBean.paymentDetailForReport.expense.isApproved eq 'false'}">
+							<h:outputText value="Not Approved"
+								style="color:red;font-weight: bold;" />
+						</c:if>
+					</h:panelGrid>
+				</div>
+
+			</div>
+
+			<p:panel style="border:none;margin-right:6.4%">
+				<div class="ui-g" style="margin-left: 10%; border: none;">
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid style="border: none;" columns="1">
+							<p:outputLabel for="description"
+								style="font-size:16px;font-weight: bold;color:blue"
+								value="Description:" />
+						</h:panelGrid>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid columns="1" style="border: none;width:100%">
+
+							<p:inputTextarea id="description"
+								style="border:none;background-color:HoneyDew" readonly="true"
+								value="#{adminBean.paymentDetailForReport.expense.description}"
+								autoResize="true" />
+
+						</h:panelGrid>
+					</div>
+				</div>
+			</p:panel>
+
+			<p:panel style="border:none"
+				rendered="#{adminBean.paymentDetailForReport.expense.isApproved}">
+				<div class="ui-g" style="margin-left: 10%; border: none;">
+
+
+
+					<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+							<p:outputLabel style="font-size:16px" value="Approved By :" />
+							<h:outputText style="font-size:16px"
+								value="#{adminBean.paymentDetailForReport.expense.userByApprovedBy.username}" />
+						</h:panelGrid>
+					</div>
+
+					<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+							<p:outputLabel style="font-size:16px" value="Approved Date :" />
+							<h:outputText style="font-size:16px"
+								value="#{adminBean.paymentDetailForReport.expense.approvedDate}" />
+						</h:panelGrid>
+					</div>
+				</div>
+			</p:panel>
+
+		</p:panel>
+
+
+		<p:panel style="margin-top:1%;">
+			<f:facet name="header">Vendor Details</f:facet>
+
+			<div class="ui-g"
+				style="margin-left: 10%; margin-top: 1%; border: none;">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Id :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.venderId}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Name :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.venderName}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Pan :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.venderPan}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Address :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.venderAddress}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Mobile :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.venderMobile}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Vendor Email :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.venderEmail}" />
+					</h:panelGrid>
+				</div>
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Remarks :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.expense.vendor.remarks}" />
+					</h:panelGrid>
+				</div>
+
+			</div>
+
+		</p:panel>
+
+
+
+		<p:panel style="margin-top:1%;">
+			<f:facet name="header">Payment Details</f:facet>
+			<div class="ui-g"
+				style="margin-left: 10%; margin-top: 1%; border: none;">
+
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Payment Id :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.paymentId}" />
+					</h:panelGrid>
+				</div>
+				
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Mode Of Payment :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.modeOfPayment}" />
+					</h:panelGrid>
+				</div>
+				
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Amount :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.amount}" />
+					</h:panelGrid>
+				</div>
+				
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Entry Date :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.entryDate}" />
+					</h:panelGrid>
+				</div>
+				
+				<div class="ui-g-12 ui-md-6 ui-lg-4" style="border: none;">
+					<h:panelGrid style="border: none;" columns="2">
+						<p:outputLabel style="font-size:16px" value="Entry By :" />
+						<h:outputText style="font-size:16px"
+							value="#{adminBean.paymentDetailForReport.userByEnrtyBy.username}" />
+					</h:panelGrid>
+				</div>
+			</div>
+			
+			
+			<p:panel style="border:none"
+				rendered="#{not empty adminBean.paymentDetailForReport.paymentsDocumentses}">
+				<div class="ui-g"
+					style="margin-left: 10%; margin-right: 10%; border: none;">
+
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid style="border: none;" columns="1">
+							<p:outputLabel
+								style="font-weight: bold;font-size:18px;color:Teal"
+								value="Documents :- " />
+						</h:panelGrid>
+					</div>
+					<div class="ui-g-12 ui-md-6 ui-lg-12" style="border: none;">
+						<h:panelGrid style="border: none;" columns="2">
+
+							<c:forEach items="${adminBean.paymentDetailForReport.paymentsDocumentses}"
+								var="doc">
+								<p:outputLabel style="font-size:16px" value="File Name : " />
+
+								<h:commandLink action="#{adminBean.openFile()}"
+									value="#{doc.fileName}" target="_blank" immediate="true">
+									<f:param name="filePath" value="#{doc.filePath}" />
+									<f:param name="filename" value="#{doc.fileName}" />
+									<f:param name="extension" value="#{doc.extension}" />
+								</h:commandLink>
+
+							</c:forEach>
+
+						</h:panelGrid>
+					</div>
+
+				</div>
+			</p:panel>
+			
+		</p:panel>
+
+	</h:form>
+
+</ui:composition>

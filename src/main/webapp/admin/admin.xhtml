@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition template="/admin/adminTemplate.xhtml">
+	<ui:define name="content">
+		<h:panelGroup id="mainBody">
+			<c:choose>
+
+				<c:when test="#{adminBean.action == 'ACCOUNTFORM'}">
+					<ui:include src="/admin/accountForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'ACCOUNTLIST'}">
+					<ui:include src="/admin/listAccount.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'ACCOUNTDETAILS'}">
+					<ui:include src="/admin/accountDetails.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'INTERNALBANKFORM'}">
+					<ui:include src="/admin/internalBankForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'INTERNALBANKLIST'}">
+					<ui:include src="/admin/internalBankList.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'BANKDETAILS'}">
+					<ui:include src="/admin/bankDetails.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'INTERNALCARDFORM'}">
+					<ui:include src="/admin/internalCardForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'INTERNALCARDLIST'}">
+					<ui:include src="/admin/internalCardList.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CARDDETAILS'}">
+					<ui:include src="/admin/cardDetails.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CHEQUEFORM'}">
+					<ui:include src="/admin/chequeForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CHEQUELIST'}">
+					<ui:include src="/admin/listCheque.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'VENDORFORM'}">
+					<ui:include src="/admin/vendorForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'VENDORDETAILS'}">
+					<ui:include src="/admin/vendorDetails.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'VENDORLIST'}">
+					<ui:include src="/admin/listVendor.xhtml" />
+				</c:when>
+
+
+				<c:when test="#{adminBean.action == 'EXPENSEFORM'}">
+					<ui:include src="/admin/expenseForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'EXPENSELIST'}">
+					<ui:include src="/admin/listExpense.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'EXPENSEDETAILS'}">
+					<ui:include src="/admin/expenseDetails.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CASHBOOKFORM'}">
+					<ui:include src="/admin/cashBookForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CASHBOOKLIST'}">
+					<ui:include src="/admin/cashBookList.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CASHBOOKDETAILS'}">
+					<ui:include src="/admin/cashBookDetails.xhtml" />
+				</c:when>
+
+
+				<c:when test="#{adminBean.action == 'REPORTFORM'}">
+					<ui:include src="/admin/reportForm.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CASHDETAILSREPORT'}">
+					<ui:include src="/admin/cashDetailsReport.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CARDDETAILSREPORT'}">
+					<ui:include src="/admin/cardDetailsReport.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'NEFTDETAILSREPORT'}">
+					<ui:include src="/admin/neftDetailsReport.xhtml" />
+				</c:when>
+
+				<c:when test="#{adminBean.action == 'CHEQUEDETAILSREPORT'}">
+					<ui:include src="/admin/chequeDetailsReport.xhtml" />
+				</c:when>
+				
+				<c:when test="#{adminBean.action == 'EXPENSEREPORT'}">
+					<ui:include src="/admin/expenseReport.xhtml" />
+				</c:when>
+				
+				<c:when test="#{adminBean.action == 'EXPENSEDETAILSREPORTWITHDATERANGE'}">
+					<ui:include src="/admin/expenseDetailsReport.xhtml" />
+				</c:when>
+
+			</c:choose>
+
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+
+	    <property name="hibernate.connection.password">ayantprodroot</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/expm</property>
+		<property name="hibernate.connection.username">root</property>
+
+		<!-- <property name="hibernate.connection.password">mysql</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/expm</property>
+		<property name="hibernate.connection.username">root</property> -->
+
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+		<property name="hibernate.search.autoregister_listeners">true</property>
+		<property name="hibernate.validator.apply_to_ddl">false</property>
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.CardBook" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.ChequeNo" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.VendorDocuments" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.PaymentDetail" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.Role" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.ChequeBook" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.Vendor" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.BankInternalCard" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.Bank" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.Account" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.CashBook" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.BankInternal" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.Expense" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.ExpenseDocuments" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.NeftBook" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.CashDocuments" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.PaymentsDocuments" />
+		<mapping class="com.ayantsoft.expm.hibernate.pojo.User" />
+	</session-factory>
+</hibernate-configuration>

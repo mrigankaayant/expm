@@ -1,0 +1,283 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel style="margin-top:1%">
+
+		<h:form id="reportInputForm">
+
+			<p:panel>
+				<f:facet name="header">Report For</f:facet>
+						<h:panelGrid columns="10"  layout="grid" style="border: none;width:50%;padding-right:25%">
+							<p:outputLabel for="reportFor" style="font-size:16px;font-weight:bold" value="Report For:" />
+
+							<p:selectOneMenu id="reportFor" style="width:113%;margin-right:40%;margin-top:1%" required="true"
+								requiredMessage="Enter Report For"
+								validator="#{adminBean.getReportFor}">
+								<f:selectItem itemLabel="---Select---" itemValue="" />
+								<f:selectItem itemValue="CASH" itemLabel="CASH" />
+								<f:selectItem itemValue="CARD" itemLabel="CARD" />
+								<f:selectItem itemValue="NEFT" itemLabel="NEFT" />
+								<f:selectItem itemValue="CHEQUE" itemLabel="CHEQUE" />
+								<p:ajax event="change" update=":reportInputForm"></p:ajax>
+							</p:selectOneMenu>
+							<p:message for="reportFor" />
+						</h:panelGrid>
+			</p:panel>
+			
+			
+
+			<p:panel style="margin-top:1%" id="cashDetailsPanel"
+				rendered="#{adminBean.cashDetailsPanelSelector}">
+				<f:facet name="header">Year Cash Details</f:facet>
+				
+						<h:panelGrid style="width:100%;border:none" columns="3">
+							<p:outputLabel style="font-size:16px;font-weight:bold" value="Total Expense: #{adminBean.totalCredit}" />
+							<p:outputLabel style="font-size:16px;font-weight:bold" value="Total Deposite: #{adminBean.totalDebit}" />
+							<p:outputLabel style="font-size:16px;font-weight:bold" value="Total Balance: #{adminBean.balance}" />
+						</h:panelGrid>
+				
+			</p:panel>
+
+			<p:panel style="margin-top:1%">
+				<f:facet name="header">Priod</f:facet>
+				<h:panelGrid columns="10" layout="grid" style="border: none">
+					<p:outputLabel for="period" style="font-size:16px;font-weight:bold" value="Period:" />
+
+					<p:selectOneMenu id="period" required="true"
+						requiredMessage="Enter Period"
+						validator="#{adminBean.dateRangeCheck}">
+						<f:selectItem itemLabel="---Select---" itemValue="" />
+						<f:selectItem itemValue="Current Month" itemLabel="Current Month" />
+						<f:selectItem itemValue="Current Month Plus Previous Month"
+							itemLabel="Current Month Plus Previous Month" />
+						<f:selectItem itemValue="Current Month Plus Previous Two Month"
+							itemLabel="Current Month Plus Previous Two Month" />
+						<f:selectItem itemValue="Date Range" itemLabel="Date Range" />
+						<p:ajax event="change" update=":reportInputForm" />
+					</p:selectOneMenu>
+					<p:message for="period" />
+
+
+					<p:outputLabel for="start" style="font-size:16px;font-weight:bold" value="Start (DD/MM/YYYY)"
+						rendered="#{adminBean.dateRangePanelSelector}" />
+
+					<p:calendar required="true" id="start" pattern="dd-MMMM-yyyy"
+						requiredMessage="Enter Start Date"
+						value="#{adminBean.startDate}"
+						rendered="#{adminBean.dateRangePanelSelector}" />
+					<p:message for="start"
+						rendered="#{adminBean.dateRangePanelSelector}" />
+
+					<p:outputLabel for="end" style="font-size:16px;font-weight:bold" value="End (DD/MM/YYYY)"
+						rendered="#{adminBean.dateRangePanelSelector}" />
+
+					<p:calendar required="true" id="end" pattern="dd-MMMM-yyyy"
+						requiredMessage="Enter Start Date" value="#{adminBean.endDate}"
+						rendered="#{adminBean.dateRangePanelSelector}" />
+					<p:message for="end"
+						rendered="#{adminBean.dateRangePanelSelector}" />
+
+					<p:commandButton value="Search"
+						action="#{adminBean.findReportByStartDateAndEndDate()}" update=":reportInputForm"
+						rendered="#{adminBean.dateRangePanelSelector}" />
+
+				</h:panelGrid>
+			</p:panel>
+
+        
+			<p:panel style="margin-top:1%" rendered="#{adminBean.showCashDetailsPanel}">
+				<p:panel>
+				   <f:facet name="header">Previous Month Details</f:facet>
+					
+							<h:panelGrid style="width:100%;border:none" columns="3">
+								<p:outputLabel style="font-size:16px;font-weight:bold" value="Total Expense: #{adminBean.opengingTotalCredit}" />
+								<p:outputLabel style="font-size:16px;font-weight:bold" value="Total Deposite: #{adminBean.openingTotalDebit}" />
+								<p:outputLabel style="font-size:16px;font-weight:bold" value="Opening Balance: #{adminBean.openingBalance}" />
+							</h:panelGrid>
+						
+				</p:panel>
+				
+				<br></br>
+
+				<p:dataTable var="cb" value="#{adminBean.cashBookList}" sortBy="#{cb.txnId}" rowKey="#{cb.txnId}" id="cashbook-table"
+				selectionMode="single" selection="#{adminBean.selectedCashBookDto}" widgetVar="cashTable">
+
+					<f:facet name="header">Details Of Cash Book</f:facet>
+					
+					<p:ajax event="rowDblselect" listener="#{adminBean.onRowSelectInCashBookDetails}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+					
+					<p:column headerText="Entry Date" style="text-align:center">
+						<h:outputText value="#{cb.entryDate}" />
+					</p:column>
+
+					<p:column headerText="Credit" style="text-align:center">
+						<h:outputText value="#{cb.credit}" />
+					</p:column>
+
+					<p:column headerText="Debit" style="text-align:center">
+						<h:outputText value="#{cb.debit}" />
+					</p:column>
+					
+					<p:column headerText="Balance" style="text-align:center">
+						<h:outputText value="#{cb.currentBalance}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			
+			
+			<p:panel style="margin-top:1%" rendered="#{adminBean.showCardDetailsPanel}">
+			    <f:facet name="header">Details Of Card Book</f:facet>
+			    
+			    <p:dataTable var="cb" value="#{adminBean.cardBookList}" sortBy="#{cb.txnId}" rowKey="#{cb.txnId}" id="cardbook-table"
+				selectionMode="single" selection="#{adminBean.selectedCardBookDto}" widgetVar="cardTable">
+					
+					<p:ajax event="rowDblselect" listener="#{adminBean.onRowSelectInCardBookDetails}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+					
+					<p:column headerText="Card No" style="text-align:center">
+						<h:outputText value="#{cb.cardNo}" />
+					</p:column>
+
+					<p:column headerText="Card Holder Name" style="text-align:center">
+						<h:outputText value="#{cb.cardHolderName}" />
+					</p:column>
+
+					<p:column headerText="Card Type" style="text-align:center">
+						<h:outputText value="#{cb.cardType}" />
+					</p:column>
+					
+					<p:column headerText="Bank Name" style="text-align:center">
+						<h:outputText value="#{cb.bankName}" />
+					</p:column>
+					
+					<p:column headerText="Account No" style="text-align:center">
+						<h:outputText value="#{cb.accountNo}" />
+					</p:column>
+					
+					<p:column headerText="Entry Date" style="text-align:center">
+						<h:outputText value="#{cb.entryDate}" />
+					</p:column>
+					
+					<p:column headerText="Swiped By" style="text-align:center">
+						<h:outputText value="#{cb.cardSwipedBy}" />
+					</p:column>
+					
+					<p:column headerText="Swiped Date" style="text-align:center">
+						<h:outputText value="#{cb.cardSwipedDate}" />
+					</p:column>
+					
+					<p:column headerText="Amount" style="text-align:center">
+						<h:outputText value="#{cb.amount}" />
+					</p:column>
+					
+					<p:column headerText="Entry By" style="text-align:center">
+						<h:outputText value="#{cb.username}" />
+					</p:column>
+					
+				</p:dataTable>
+			    
+			</p:panel>
+			
+			
+			
+			<p:panel style="margin-top:1%" rendered="#{adminBean.showNeftDetailsPanel}">
+			    <f:facet name="header">Details Of NEFT Book</f:facet>
+			    
+			    <p:dataTable var="nb" value="#{adminBean.neftBookList}" sortBy="#{nb.txnId}" rowKey="#{nb.txnId}" id="neftbook-table"
+				selectionMode="single" selection="#{adminBean.selectedNeftBookDto}" widgetVar="neftTable">
+					
+					<p:ajax event="rowDblselect" listener="#{adminBean.onRowSelectInNeftBookDetails}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+					
+					<p:column headerText="Payee Name" style="text-align:center">
+						<h:outputText value="#{nb.payeeName}" />
+					</p:column>
+
+					<p:column headerText="Payee Bank Name" style="text-align:center">
+						<h:outputText value="#{nb.payeeBankName}" />
+					</p:column>
+
+					<p:column headerText="Payee Bank IFSC" style="text-align:center">
+						<h:outputText value="#{nb.payeeBankIfsc}" />
+					</p:column>
+					
+					<p:column headerText="Payee Bank Branch" style="text-align:center">
+						<h:outputText value="#{nb.payeeBankBranch}" />
+					</p:column>
+					
+					<p:column headerText="Amount" style="text-align:center">
+						<h:outputText value="#{nb.amount}" />
+					</p:column>
+					
+					<p:column headerText="NEFT Status" style="text-align:center">
+						<h:outputText value="#{nb.neftStatus}" />
+					</p:column>
+					
+					<p:column headerText="NEFT Date" style="text-align:center">
+						<h:outputText value="#{nb.neftDate}" />
+					</p:column>
+					
+					<p:column headerText="Entry Date" style="text-align:center">
+						<h:outputText value="#{nb.entryDate}" />
+					</p:column>
+					
+					<p:column headerText="Entry By" style="text-align:center">
+						<h:outputText value="#{nb.username}" />
+					</p:column>
+					
+				</p:dataTable>
+			    
+			</p:panel>
+			
+			
+			
+			<p:panel style="margin-top:1%" rendered="#{adminBean.showChequeDetailsPanel}">
+			    <f:facet name="header">Details Of Cheque Book</f:facet>
+			    
+			    <p:dataTable var="ch" value="#{adminBean.chequeBookList}" sortBy="#{ch.chequeNo}" rowKey="#{ch.chequeNo}" id="chequebook-table"
+				selectionMode="single" selection="#{adminBean.selectedChequeBookDto}" widgetVar="chequeTable">
+					
+					<p:ajax event="rowDblselect" listener="#{adminBean.onRowSelectInChequeBookDetails}" onstart="PF('statusDialog').show()"
+					oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+					
+					<p:column headerText="Cheque No." style="text-align:center">
+						<h:outputText value="#{ch.chequeNo}" />
+					</p:column>
+
+					<p:column headerText="Payee Name" style="text-align:center">
+						<h:outputText value="#{ch.payeeName}" />
+					</p:column>
+
+					<p:column headerText="Payable Date" style="text-align:center">
+						<h:outputText value="#{ch.payableDate}" />
+					</p:column>
+					
+					<p:column headerText="Amount" style="text-align:center">
+						<h:outputText value="#{ch.amount}" />
+					</p:column>
+					
+					<p:column headerText="Cheque Status" style="text-align:center">
+						<h:outputText value="#{ch.chequeStatus}" />
+					</p:column>
+					
+					<p:column headerText="Entry Date" style="text-align:center">
+						<h:outputText value="#{ch.entryDate}" />
+					</p:column>
+					
+					<p:column headerText="Entry By" style="text-align:center">
+						<h:outputText value="#{ch.username}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			
+			
+			
+			
+
+		</h:form>
+	</p:panel>
+</ui:composition>

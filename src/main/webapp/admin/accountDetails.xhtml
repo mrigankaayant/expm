@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form id="accountDetails">
+		<p:panel header="Account Details" style="text-align:center">
+
+			<h:panelGrid style="padding-left:45%" columns="2"
+				columnClasses="label,value" styleClass="grid">
+				<p:outputLabel style="font-size:16px" value="Account Name:" />
+				<h:outputText style="font-size:16px"
+					value="#{adminBean.account.accountName}" />
+			</h:panelGrid>
+
+			<h:panelGrid style="padding-left:45%" columns="2"
+				columnClasses="label,value" styleClass="grid">
+				<p:outputLabel style="font-size:16px" value="Account Id:" />
+				<h:outputText style="font-size:16px"
+					value="#{adminBean.account.accountId}" />
+			</h:panelGrid>
+
+			<h:panelGrid style="padding-left:45%" columns="2"
+				columnClasses="label,value" styleClass="grid">
+				<p:outputLabel style="font-size:16px" value="Description:" />
+				<h:outputText style="font-size:16px"
+					value="#{adminBean.account.description}" />
+			</h:panelGrid>
+
+			<f:facet name="footer">
+				<div style="text-align: center">
+
+					<p:commandButton value="Back" action="#{adminBean.accountList()}"
+						onclick="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+
+					<p:commandButton value="Edit" action="#{adminBean.editAccount()}"
+						onclick="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()" update=":mainBody" />
+
+
+				</div>
+			</f:facet>
+
+		</p:panel>
+	</h:form>
+</ui:composition>

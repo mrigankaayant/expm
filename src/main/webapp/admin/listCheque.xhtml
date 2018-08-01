@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<h:form>
+
+		<p:panel style="margin-top:1%">
+
+			<f:facet name="header">Cheque List</f:facet>
+
+			<p:dataTable var="ch" value="#{adminBean.chequeList}"
+				paginator="true" rows="100"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				sortBy="#{ch.bankInternal.accountNo}" rowKey="#{account.accountId}"
+				sortOrder="descending" rowsPerPageTemplate="100,200,300,500"
+				id="account-table" widgetVar="accountTable">
+
+				<f:facet name="header">Cheque</f:facet>
+
+				<p:column headerText="Bank Name"
+					sortBy="#{ch.bankInternal.bankName}"
+					filterBy="#{ch.bankInternal.bankName}" style="text-align:center">
+					<h:outputText value="#{ch.bankInternal.bankName}" />
+				</p:column>
+
+
+				<p:column headerText="Account No"
+					sortBy="#{ch.bankInternal.accountNo}"
+					filterBy="#{ch.bankInternal.accountNo}" style="text-align:center">
+					<h:outputText value="#{ch.bankInternal.accountNo}" />
+				</p:column>
+
+				<p:column headerText="Cheque No" sortBy="#{ch.chequeNo}"
+					filterBy="#{ch.chequeNo}" style="text-align:center">
+					<h:outputText value="#{ch.chequeNo}" />
+				</p:column>
+
+				<p:column headerText="Is Issued?" sortBy="#{ch.isIssued}"
+					filterBy="#{ch.isIssued}" style="text-align:center">
+                    <h:outputText value="#{ch.isIssued}" />
+				</p:column>
+
+				<p:summaryRow>
+					<p:column colspan="4" style="text-align:right">
+						<h:outputText
+							value="Information End Of #{ch.bankInternal.bankName}" />
+					</p:column>
+				</p:summaryRow>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</ui:composition>

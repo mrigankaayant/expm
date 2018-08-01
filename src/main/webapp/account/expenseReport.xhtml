@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panel style="margin-top:1%;border:none">
+
+		<h:form id="reportInputForm">
+
+			<p:panel style="margin-top:1%">
+				<f:facet name="header">Total Expense Report</f:facet>
+				<h:panelGrid columns="11" layout="grid" style="border: none">
+					<p:outputLabel for="account-name" style="font-size:16px;font-weight:bold" value="Account Name" />
+
+					<p:selectOneMenu id="account-name" value="#{accountBean.expenseAccountId}"
+							 required="true"
+							requiredMessage="Select Account">
+							<f:selectItem itemLabel="---Select Account---" itemValue=""
+								noSelectionOption="true" />
+							<f:selectItems value="#{appDataBean.accountList}" var="acc"
+								itemLabel="#{acc.accountName}" itemValue="#{acc.accountId}" />
+						</p:selectOneMenu>
+					<p:message for="account-name" />
+
+
+					<p:outputLabel for="start" style="font-size:16px;font-weight:bold" value="Start (DD/MM/YYYY)" />
+
+					<p:calendar required="true" id="start" pattern="dd-MMMM-yyyy" style="padding-right:5%"
+						requiredMessage="Enter Start Date"
+						value="#{accountBean.startDate}" />
+					<p:message for="start" />
+
+					<p:outputLabel  for="end" style="font-size:16px;font-weight:bold;" value="End (DD/MM/YYYY)" />
+
+					<p:calendar required="true" id="end" pattern="dd-MMMM-yyyy"
+						requiredMessage="Enter End Date" value="#{accountBean.endDate}" />
+					<p:message for="end" />
+
+					<p:commandButton value="Search"
+						action="#{accountBean.totalExpenseByAccountId()}" update=":reportInputForm" />
+
+				</h:panelGrid>
+			</p:panel>
+			
+			<p:panel rendered="#{not empty accountBean.paymentDetailsDtoList}" style="margin-top:1%;">
+			      
+			     <div style="margin-left:40%;">
+			       <h:outputText value="Total Expense Is RS- #{accountBean.calculateExpense}" style="font-size:16px;font-weight:bold;color:Teal" />
+			     </div>
+			
+			</p:panel>
+			
+			<p:panel rendered="#{not empty accountBean.paymentDetailsDtoList}" style="margin-top:1%">
+			    <p:dataTable var="pdd" value="#{accountBean.paymentDetailsDtoList}">
+			        <p:column headerText="Entry Date">
+						<h:outputText value="#{pdd.entryDate}" />
+					</p:column>
+					
+					<p:column headerText="Mode Of Payment">
+						<h:outputText value="#{pdd.modeOfPayment}" />
+					</p:column>
+					
+					<p:column headerText="Amount">
+						<h:outputText value="#{pdd.amount}" />
+					</p:column>
+					
+					<p:column headerText="Entry By">
+						<h:outputText value="#{pdd.name}" />
+					</p:column>
+					
+					<p:column headerText="Description">
+						<h:outputText value="#{pdd.description}" />
+					</p:column>
+			    </p:dataTable>
+			</p:panel>
+			
+			
+
+
+		</h:form>
+	</p:panel>
+</ui:composition>

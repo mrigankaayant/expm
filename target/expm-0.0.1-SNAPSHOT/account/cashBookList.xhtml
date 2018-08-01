@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+
+
+	<h:form>
+	
+		<p:panel style="margin-top:1%">
+		
+			<f:facet name="header">Cash Book List</f:facet>
+			
+			<p:dataTable var="cash" value="#{accountBean.cashbooks}" paginator="true" rows="20"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+				sortBy="#{cash.txnId}" rowKey="#{cash.txnId}" sortOrder="descending" 
+				rowsPerPageTemplate="20,25,50,100" id="cashBook-table" widgetVar="cashBookTable">
+				
+				<f:facet name="header">Cash Book</f:facet>
+				
+
+				<p:column headerText="Id" sortBy="#{cash.txnId}" filterBy="#{cash.txnId}" style="text-align:center">
+					<h:outputText value="#{cash.txnId}" />
+				</p:column>
+
+				<p:column headerText="Amount" sortBy="#{cash.debit}" filterBy="#{cash.debit}" style="text-align:center">
+					<h:outputText value="#{cash.debit}" />
+				</p:column>
+
+				<p:column headerText="Description" sortBy="#{cash.description}" filterBy="#{cash.description}"
+					style="text-align:center">
+					<h:outputText value="#{cash.description}" />
+				</p:column>
+				
+				<p:column headerText="Entry Date" sortBy="#{cash.entryDate}" filterBy="#{cash.entryDate}"
+					style="text-align:center">
+					<h:outputText value="#{cash.entryDate}">
+						<f:convertDateTime pattern="MM/dd/yyyy" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Entry By" sortBy="#{cash.user.username}" filterBy="#{cash.user.username}"
+					style="text-align:center">
+					<h:outputText value="#{cash.user.username}"/>
+				</p:column>
+				
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+
+		<p:panelGrid style="width:40%;margin-left:29%;margin-top:10%;">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="6">Create Card</p:column>
+				</p:row>
+			</f:facet>
+
+		</p:panelGrid>
+		<br></br>
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bank-name" value="Bank Name:" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="bank-name" style="width:91%"
+						value="#{accountBean.internalCard.bankInternal.id}"
+						required="true" requiredMessage="Select Bank">
+						<f:selectItem itemLabel="Select Bank" itemValue=""
+							noSelectionOption="true" />
+						<f:selectItems value="#{appDataBean.bankInternalList}" var="b"
+							itemLabel="#{b.bankName}" itemValue="#{b.id}" />
+					</p:selectOneMenu>
+					<p:message for="bank-name" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="card-no" value="Card Nnumber:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="card-no"
+						value="#{accountBean.internalCard.cardNo}" required="true"
+						requiredMessage="Enter Card Number" placeholder="Card Number" validatorMessage="Please Enter Number Only" >
+						 <f:validateRegex pattern="[0-9]*" />
+						</p:inputText>
+					<p:message for="card-no" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="card-holdername" value="Card Holder Name:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="card-holdername"
+						value="#{accountBean.internalCard.cardHolderName}" required="true"
+						requiredMessage="Enter Card Holder Name"
+						placeholder="Card Holder Name" validatorMessage="Please Enter Alphabets Only" >
+						<f:validateRegex pattern="[a-z ' A-Z]*" />
+						</p:inputText>
+					<p:message for="card-holdername" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="card-type" value="Card Type:" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="card-type" style="width:91%"
+						value="#{accountBean.internalCard.cardType}" required="true"
+						requiredMessage="Enter Card Type">
+						<f:selectItem itemLabel="---Select---" itemValue="" />
+						<f:selectItem itemValue="DEBIT" itemLabel="Debit" />
+						<f:selectItem itemValue="CREDIT" itemLabel="Credit" />
+					</p:selectOneMenu>
+					<p:message for="card-type" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<f:facet name="footer">
+				<p:row>
+					<p:column colspan="6" class="right-align">
+						<p:commandButton value="Save" onclick="PF('statusDialog').show()"
+							oncomplete="PF('statusDialog').hide()" disabled="#{accountBean.internalCard.id != null}"
+							actionListener="#{accountBean.saveInternalBankCard()}"
+							update=":mainBody" />
+					</p:column>
+				</p:row>
+			</f:facet>
+		</p:panelGrid>
+
+	</h:form>
+</ui:composition>

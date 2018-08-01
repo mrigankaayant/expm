@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+
+		<p:panelGrid style="width:40%;margin-left:29%;margin-top:10%;">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="6">Create Bank Account</p:column>
+				</p:row>
+			</f:facet>
+
+		</p:panelGrid>
+		<br></br>
+		<p:panelGrid style="width:40%;margin-left:29%;">
+		
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bank-name" value="Bank Name:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="bank-name"
+						value="#{accountBean.bank.bankName}" required="true"
+						 requiredMessage="Enter Bank Name"
+						placeholder="Enter Bank Name"  />
+						<p:message for="bank-name" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bankAccount-no" value="Bank Account No." />
+				</p:column>
+				<p:column>
+					<p:inputText id="bankAccount-no"
+						value="#{accountBean.bank.bankAccountNo}" required="true"
+						requiredMessage="Enter Bank Account Number" placeholder="Enter Bank Account Number" />
+						<p:message for="bankAccount-no" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="account-type" value="Bank Account Type:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="account-type"
+						value="#{accountBean.bank.bankAccountType}" required="true"
+						 requiredMessage="Enter Bank Account Type"
+						placeholder="Enter Bank Account Type"  />
+						<p:message for="account-type" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bank-ifsc" value="Bank IFSC No." />
+				</p:column>
+				<p:column>
+					<p:inputText id="bank-ifsc"
+						value="#{accountBean.bank.bankIfsc}" required="true"
+						 requiredMessage="Enter Bank Ifsc Number"
+						placeholder="Enter Bank Ifsc Number"  />
+						<p:message for="bank-ifsc" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bank-branch" value="Branch Name:" />
+				</p:column>
+				<p:column>
+					<p:inputText id="bank-branch"
+						value="#{accountBean.bank.bankBranch}" required="true"
+						 requiredMessage="Enter Branch Name"
+						placeholder="Enter Branch Name"  />
+						<p:message for="bank-branch" />
+				</p:column>
+			</p:row>
+			
+			<p:row>
+				<p:column>
+					<p:outputLabel for="bank-vendor" value="Vendor:" />
+				</p:column>
+				<p:column>	
+					  <p:selectOneMenu id="bank-vendor" value="#{accountBean.bank.vendor.venderId}" required="true" requiredMessage="Select Vendor" style="width:92%">
+							<f:selectItem itemLabel="Select Vendor" itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{appDataBean.vendorList}" var="v" itemLabel="#{v.venderName}"
+								itemValue="#{v.venderId}" />
+						</p:selectOneMenu>	
+						<p:message for="bank-vendor" />
+				</p:column>
+			</p:row>
+			
+			
+		</p:panelGrid>
+		<br />
+		<p:panelGrid style="width:40%;margin-left:29%;">
+			<f:facet name="footer">
+				<p:row>
+					<p:column colspan="6" style="text-align:center">
+						<p:commandButton value="Save" onclick="PF('statusDialog').show()"
+							oncomplete="PF('statusDialog').hide()"
+							actionListener="#{accountBean.saveBank()}" update=":mainBody" />
+					</p:column>
+				</p:row>
+			</f:facet>
+		</p:panelGrid>
+
+	</h:form>
+</ui:composition>
